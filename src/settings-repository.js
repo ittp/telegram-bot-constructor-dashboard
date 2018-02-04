@@ -16,4 +16,11 @@ function addOnTextAnswer(answer, callback) {
     })
 }
 
+function getOnTextAnswersByBot(botAccessToken, callback) {
+    OnTextAnswer.find({ botAccessToken: botAccessToken }, (err, answers) => {
+        callback(answers)
+    })
+}
+
 module.exports.addOnTextAnswer = addOnTextAnswer
+module.exports.getOnTextAnswersByBot = getOnTextAnswersByBot

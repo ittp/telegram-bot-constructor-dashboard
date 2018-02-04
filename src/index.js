@@ -29,7 +29,12 @@ app.get('/bot/configure/', (request, response) => {
     let botAccessToken = parsedUrl.query.botAccessToken;
 
     botRepository.getBotByToken(botAccessToken, (bot) => {
-        response.render('bot', { bot: bot })
+        settingsRepository.getOnTextAnswersByBot(botAccessToken, (answers) => {
+            response.render('bot', {
+                bot: bot,
+                answers: answers
+            })
+        })
     })
 })
 

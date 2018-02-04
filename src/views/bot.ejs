@@ -18,8 +18,25 @@
         <%= bot.botName%>
     </h2>
     <hr>
+    <h3>On text answers:</h3>
+    <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Message</th>
+                <th scope="col">Answer</th>
+              </tr>
+            </thead>
+            <tbody>
+                <%for(let i=0;i<answers.length;i++) {%>
+                    <tr>
+                        <td><%=answers[i].messageText%></td>
+                        <td><%=answers[i].answerText%></td>
+                    </tr>
+                <%}%>
+          </table>
+
     <form action="/bot/answer" class="form" method="POST">
-        <h3>On text answers:</h3>
+        <h4>Add on text answer:</h4>
         <div class="form-group">
             <label for="messageText">Message text:</label>
             <input type="text" class="form-control" id="messageText" name="messageText" required>
@@ -31,6 +48,7 @@
         <input type="hidden" class="form-control" id="botAccessToken" name="botAccessToken" required value=<%= bot.botAccessToken%>>
         <button type="submit" class="btn btn-success">Save</button>
     </form>
+    <hr>
 </body>
 
 </html>
