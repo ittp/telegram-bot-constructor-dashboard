@@ -20,9 +20,10 @@
         <h4>Choose the bot:</h4>
         <div class="form-group">
             <label for="Bot">Bot:</label>
-            <select class="form-control" id="bot" required>
-                <option value="bot1">Bot2</option>
-                <option value="bot2">Bot2</option>
+            <select class="form-control" id="bot" name="bot" required>
+                <%for(let i=0;i<bots.length;i++) {%>
+                <option value="<%=bots[i]._id%>"><%=bots[i].botName %></option>
+                <%}%>
             </select>
             <br>
             <button type="submit" class="btn btn-success">OK</button>
@@ -32,11 +33,11 @@
         <h4>Add the bot:</h4>
         <div class="form-group">
             <label for="botName">Bot name:</label>
-            <input type="text" class="form-control" id="botName" required>
+            <input type="text" class="form-control" id="botName" name="botName" required>
         </div>
         <div class="form-group">
-            <label for="botToken">Bot token:</label>
-            <input type="text" class="form-control" id="botToken" required>
+            <label for="botAccessToken">Bot token:</label>
+            <input type="text" class="form-control" id="botAccessToken" name="botAccessToken" required>
         </div>
         <button type="submit" class="btn btn-success">Save</button>
     </form>
