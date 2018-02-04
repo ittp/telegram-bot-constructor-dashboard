@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const onTextAnswer = new mongoose.Schema({
-    messageText: { type: String, unique: true },
+    messageText: String,
     answerText: String,
     botAccessToken: String
 })
