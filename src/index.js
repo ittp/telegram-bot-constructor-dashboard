@@ -2,8 +2,10 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const url = require('url')
 
 const botRepository = require('./bot-repository')
+const settingsRepository = require('./settings-repository')
 const config = require('../config')
 
 const app = express()
@@ -22,16 +24,28 @@ app.get('/', (request, response) => {
 
 })
 
-app.post('/bot/configure', (request, response) => {
-    botRepository.getBotById(request.body.id, (bot) => {
+app.get('/bot/configure/', (request, response) => {
+    let parsedUrl = url.parse(request.url, true);
+    let botAccessToken = parsedUrl.query.botAccessToken;
+
+    botRepository.getBotByToken(botAccessToken, (bot) => {
         response.render('bot', { bot: bot })
     })
-
 })
 
 app.post('/bot/add', (request, response) => {
     botRepository.addBot(request.body, () => {
         response.redirect('/')
+    })
+})
+
+app.post('/bot/answer', (request, response) => {
+    settingsRepository.addOnTextAnswer({
+        messageText: request.body.messageText,
+        answerText: request.body.answerText,
+        botAccessToken: request.body.botAccessToken
+    }, () => {
+        response.redirect(`/bot/configure/?botAccessToken=${request.body.botAccessToken}`)
     })
 })
 

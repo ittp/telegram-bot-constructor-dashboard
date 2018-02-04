@@ -1,4 +1,4 @@
-const Bot = require('./models/telegram-bot')
+const Bot = require('./models/bot')
 
 function addBot(bot, callback) {
     let newBot = new Bot({
@@ -22,8 +22,8 @@ function getBots(callback) {
     })
 }
 
-function getBotById(id, callback) {
-    Bot.findOne({ _id: id }, (err, bot) => {
+function getBotByToken(token, callback) {
+    Bot.findOne({ botAccessToken: token }, (err, bot) => {
         callback(bot)
     })
 
@@ -31,5 +31,5 @@ function getBotById(id, callback) {
 
 module.exports.addBot = addBot
 module.exports.getBots = getBots
-module.exports.getBotById = getBotById
+module.exports.getBotByToken = getBotByToken
 
