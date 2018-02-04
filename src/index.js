@@ -30,10 +30,14 @@ app.get('/bot/configure/', (request, response) => {
 
     botRepository.getBotByToken(botAccessToken, (bot) => {
         settingsRepository.getOnTextAnswersByBot(botAccessToken, (answers) => {
-            response.render('bot', {
-                bot: bot,
-                answers: answers
+            settingsRepository.getInlineKeysByBot(botAccessToken, (inlineKeys) => {
+                response.render('bot', {
+                    bot: bot,
+                    answers: answers,
+                    inlineKeys: inlineKeys
+                })
             })
+
         })
     })
 })
@@ -47,6 +51,16 @@ app.post('/bot/add', (request, response) => {
 app.post('/bot/answer', (request, response) => {
     settingsRepository.addOnTextAnswer({
         messageText: request.body.messageText,
+        answerText: request.body.answerText,
+        botAccessToken: request.body.botAccessToken
+    }, () => {
+        response.redirect(`/bot/configure/?botAccessToken=${request.body.botAccessToken}`)
+    })
+})
+
+app.post('/bot/inlinekey', (request, response) => {
+    settingsRepository.addInlineKey({
+        buttonText: request.body.buttonText,
         answerText: request.body.answerText,
         botAccessToken: request.body.botAccessToken
     }, () => {
