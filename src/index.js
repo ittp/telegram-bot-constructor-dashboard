@@ -12,14 +12,19 @@ const port = 3000 || env.PORT
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'));
-
 
 app.get('/', (request, response) => {
     botRepository.getBots(bots => {
         response.render('index', { bots: bots })
+    })
+
+})
+
+app.post('/bot/configure', (request, response) => {
+    botRepository.getBotById(request.body.id, (bot) => {
+        response.render('bot', { bot: bot })
     })
 
 })
@@ -34,5 +39,4 @@ app.listen(port, () => {
     mongoose.connect(config.connectionString)
 
     console.log(`Server is listening to ${port}`)
-
 })

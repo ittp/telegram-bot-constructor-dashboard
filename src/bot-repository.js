@@ -22,6 +22,14 @@ function getBots(callback) {
     })
 }
 
+function getBotById(id, callback) {
+    Bot.findOne({ _id: id }, (err, bot) => {
+        callback(bot)
+    })
+
+}
+
 module.exports.addBot = addBot
 module.exports.getBots = getBots
+module.exports.getBotById = getBotById
 

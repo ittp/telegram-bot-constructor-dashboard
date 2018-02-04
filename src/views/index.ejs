@@ -16,11 +16,11 @@
 <body class="container">
     <h2>Telegram Bot Constructor</h2>
     <hr>
-    <form action="/bot/choose" class="form" method="GET">
+    <form action="/bot/configure" class="form" method="POST">
         <h4>Choose the bot:</h4>
         <div class="form-group">
             <label for="Bot">Bot:</label>
-            <select class="form-control" id="bot" name="bot" required>
+            <select class="form-control" id="bot" name="id" required>
                 <%for(let i=0;i<bots.length;i++) {%>
                 <option value="<%=bots[i]._id%>"><%=bots[i].botName %></option>
                 <%}%>
