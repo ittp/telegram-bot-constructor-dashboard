@@ -1,12 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>Telegram Bot Constructor</title>
 </head>
-<body>
-    
+
+<body class="container">
+    <h2>Telegram Bot Constructor</h2>
+    <hr>
+    <form action="/bot/choose" class="form" method="GET">
+        <h4>Choose the bot:</h4>
+        <div class="form-group">
+            <label for="Bot">Bot:</label>
+            <select class="form-control" id="bot" required>
+                <option value="bot1">Bot2</option>
+                <option value="bot2">Bot2</option>
+            </select>
+            <br>
+            <button type="submit" class="btn btn-success">OK</button>
+    </form>
+    <hr>
+    <form action="/bot/add" class="form" method="POST">
+        <h4>Add the bot:</h4>
+        <div class="form-group">
+            <label for="botName">Bot name:</label>
+            <input type="text" class="form-control" id="botName" required>
+        </div>
+        <div class="form-group">
+            <label for="botToken">Bot token:</label>
+            <input type="text" class="form-control" id="botToken" required>
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
 </body>
-</html>   
+
+</html>
