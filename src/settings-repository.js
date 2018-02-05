@@ -83,6 +83,10 @@ function removeInlineKey(id, callback) {
     InlinKey.findByIdAndRemove(id, err => callback())
 }
 
+function removeInterview(id, callback) {
+    Interview.findByIdAndRemove(id, err => callback())
+}
+
 module.exports.addOnTextAnswer = addOnTextAnswer
 module.exports.getOnTextAnswersByBot = getOnTextAnswersByBot
 module.exports.addInlineKey = addInlineKey
@@ -92,3 +96,4 @@ module.exports.getInterviews = getInterviews
 module.exports.getAnswersByBot = getAnswersByBot
 module.exports.removeOnTextAnswer = removeOnTextAnswer
 module.exports.removeInlineKey = removeInlineKey
+module.exports.removeInterview = removeInterview

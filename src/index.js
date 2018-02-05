@@ -98,6 +98,15 @@ app.post('/bot/interview', (request, response) => {
     })
 })
 
+app.get('/bot/interview/remove', (request, response) => {
+    let parsedUrl = url.parse(request.url, true)
+    let interviewId = parsedUrl.query.id
+
+    settingsRepository.removeInterview(interviewId, () => {
+        response.redirect(`/bot/configure/?botAccessToken=${parsedUrl.query.botAccessToken}`)
+    })
+})
+
 app.listen(port, () => {
     mongoose.connect(config.connectionString)
 

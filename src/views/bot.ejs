@@ -105,7 +105,7 @@
                         <td><%=interviews[i].question%></td>
                         <td><%=interviews[i].answerA%></td>
                         <td><%=interviews[i].answerB%></td>
-                        <td><span class="glyphicon glyphicon-remove"></span></td>
+                        <td><a href="/bot/interview/remove?id=<%= interviews[i]._id%>&botAccessToken=<%= bot.botAccessToken%>"><span class="glyphicon glyphicon-remove"></a></span></td>
                     </tr>
                 <%}%>
     </table>
