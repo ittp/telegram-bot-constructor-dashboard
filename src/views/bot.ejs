@@ -141,8 +141,9 @@
     <table class="table">
             <thead>
               <tr>
-                <th scope="col">Name</th>
+                <th scope="col">Interview</th>
                 <th scope="col">Answer</th>
+                <th scope="col">Person</th>
               </tr>
             </thead>
             <tbody>
@@ -150,6 +151,7 @@
                     <tr>
                         <td><%=interviewAnswers[i].interviewName%></td>
                         <td><%=interviewAnswers[i].answerText%></td>
+                        <td><%=interviewAnswers[i].userName%></td>
                     </tr>
                 <%}%>
     </table>
