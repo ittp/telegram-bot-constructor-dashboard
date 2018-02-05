@@ -64,8 +64,15 @@ function getInlineKeysByBot(botAccessToken, callback) {
     })
 }
 
+function getInterviews(botAccessToken, callback) {
+    Interview.find({ botAccessToken: botAccessToken }, (err, interviews) => {
+        callback(interviews)
+    })
+}
+
 module.exports.addOnTextAnswer = addOnTextAnswer
 module.exports.getOnTextAnswersByBot = getOnTextAnswersByBot
 module.exports.addInlineKey = addInlineKey
 module.exports.getInlineKeysByBot = getInlineKeysByBot
 module.exports.addInterview = addInterview
+module.exports.getInterviews = getInterviews

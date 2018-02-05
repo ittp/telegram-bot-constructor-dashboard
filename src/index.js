@@ -31,13 +31,15 @@ app.get('/bot/configure/', (request, response) => {
     botRepository.getBotByToken(botAccessToken, (bot) => {
         settingsRepository.getOnTextAnswersByBot(botAccessToken, (answers) => {
             settingsRepository.getInlineKeysByBot(botAccessToken, (inlineKeys) => {
-                response.render('bot', {
-                    bot: bot,
-                    answers: answers,
-                    inlineKeys: inlineKeys
+                settingsRepository.getInterviews(botAccessToken, (interviews) => {
+                    response.render('bot', {
+                        bot: bot,
+                        answers: answers,
+                        inlineKeys: inlineKeys,
+                        interviews: interviews
+                    })
                 })
             })
-
         })
     })
 })
