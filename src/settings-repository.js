@@ -75,6 +75,14 @@ function getAnswersByBot(botAccessToken, callback) {
     Answer.find((err, answers) => callback(answers))
 }
 
+function removeOnTextAnswer(id, callback) {
+    OnTextAnswer.findByIdAndRemove(id, err => callback())
+}
+
+function removeInlineKey(id, callback) {
+    InlinKey.findByIdAndRemove(id, err => callback())
+}
+
 module.exports.addOnTextAnswer = addOnTextAnswer
 module.exports.getOnTextAnswersByBot = getOnTextAnswersByBot
 module.exports.addInlineKey = addInlineKey
@@ -82,3 +90,5 @@ module.exports.getInlineKeysByBot = getInlineKeysByBot
 module.exports.addInterview = addInterview
 module.exports.getInterviews = getInterviews
 module.exports.getAnswersByBot = getAnswersByBot
+module.exports.removeOnTextAnswer = removeOnTextAnswer
+module.exports.removeInlineKey = removeInlineKey

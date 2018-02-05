@@ -24,6 +24,7 @@
               <tr>
                 <th scope="col">Message</th>
                 <th scope="col">Answer</th>
+                <th scope="col">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
@@ -31,6 +32,7 @@
                     <tr>
                         <td><%=answers[i].messageText%></td>
                         <td><%=answers[i].answerText%></td>
+                        <td><a href="/bot/answer/remove?id=<%= answers[i]._id%>&botAccessToken=<%= bot.botAccessToken%>"><span class="glyphicon glyphicon-remove"></a></span></td>
                     </tr>
                 <%}%>
           </table>
@@ -56,6 +58,7 @@
               <tr>
                 <th scope="col">Button text</th>
                 <th scope="col">Answer</th>
+                <th scope="col">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
@@ -63,6 +66,7 @@
                     <tr>
                         <td><%=inlineKeys[i].buttonText%></td>
                         <td><%=inlineKeys[i].answerText%></td>
+                        <td><a href="/bot/inlinekey/remove?id=<%= inlineKeys[i]._id%>&botAccessToken=<%= bot.botAccessToken%>"><span class="glyphicon glyphicon-remove"></a></span></td>
                     </tr>
                 <%}%>
     </table>
@@ -91,6 +95,7 @@
                 <th scope="col">Question</th>
                 <th scope="col">answerA</th>
                 <th scope="col">answerA</th>
+                <th scope="col">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
@@ -100,6 +105,7 @@
                         <td><%=interviews[i].question%></td>
                         <td><%=interviews[i].answerA%></td>
                         <td><%=interviews[i].answerB%></td>
+                        <td><span class="glyphicon glyphicon-remove"></span></td>
                     </tr>
                 <%}%>
     </table>

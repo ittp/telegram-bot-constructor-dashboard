@@ -9,7 +9,7 @@ const settingsRepository = require('./settings-repository')
 const config = require('../config')
 
 const app = express()
-const port =  process.env.PORT || 3000 
+const port = process.env.PORT || 3000
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -63,6 +63,15 @@ app.post('/bot/answer', (request, response) => {
     })
 })
 
+app.get('/bot/answer/remove', (request, response) => {
+    let parsedUrl = url.parse(request.url, true)
+    let answerId = parsedUrl.query.id
+
+    settingsRepository.removeOnTextAnswer(answerId, () => {
+        response.redirect(`/bot/configure/?botAccessToken=${parsedUrl.query.botAccessToken}`)
+    })
+})
+
 app.post('/bot/inlinekey', (request, response) => {
     settingsRepository.addInlineKey({
         buttonText: request.body.buttonText,
@@ -72,6 +81,16 @@ app.post('/bot/inlinekey', (request, response) => {
         response.redirect(`/bot/configure/?botAccessToken=${request.body.botAccessToken}`)
     })
 })
+
+app.get('/bot/inlinekey/remove', (request, response) => {
+    let parsedUrl = url.parse(request.url, true)
+    let inlineKeyId = parsedUrl.query.id
+
+    settingsRepository.removeInlineKey(inlineKeyId, () => {
+        response.redirect(`/bot/configure/?botAccessToken=${parsedUrl.query.botAccessToken}`)
+    })
+})
+
 
 app.post('/bot/interview', (request, response) => {
     settingsRepository.addInterview(request.body, () => {
