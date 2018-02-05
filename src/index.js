@@ -68,6 +68,12 @@ app.post('/bot/inlinekey', (request, response) => {
     })
 })
 
+app.post('/bot/interview', (request, response) => {
+    settingsRepository.addInterview(request.body, () => {
+        response.redirect(`/bot/configure/?botAccessToken=${request.body.botAccessToken}`)
+    })
+})
+
 app.listen(port, () => {
     mongoose.connect(config.connectionString)
 

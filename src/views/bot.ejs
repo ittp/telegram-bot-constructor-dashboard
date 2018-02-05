@@ -81,6 +81,30 @@
         <button type="submit" class="btn btn-success">Save</button>
     </form>
     <hr>
+
+    <h3>Interview:</h3>
+    <form action="/bot/interview" class="form" method="POST">
+        <h4>Add interview:</h4>
+        <div class="form-group">
+                <label for="interviewName">Name:</label>
+                <input type="text" class="form-control" id="interviewName" name="interviewName" required>
+        </div>
+        <div class="form-group">
+            <label for="question">Question:</label>
+            <input type="text" class="form-control" id="question" name="question" required>
+        </div>
+        <div class="form-group">
+            <label for="answerA">Answer A:</label>
+            <input type="text" class="form-control" id="answerA" name="answerA" required>
+        </div>
+        <div class="form-group">
+                <label for="answerB">Answer B:</label>
+                <input type="text" class="form-control" id="answerB" name="answerB" required>
+        </div>
+        <input type="hidden" class="form-control" id="botAccessToken" name="botAccessToken" required value=<%= bot.botAccessToken%>>
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+    <hr>
 </body>
 
 </html>
