@@ -87,7 +87,7 @@
             <label for="answerText">Answer text:</label>
             <input type="text" class="form-control" id="answerText" name="answerText" required>
         </div>
-        <input type="hidden" class="form-control" id="botAccessToken" name="botAccessToken" required value="@Model.Bot.BotAccessToken">
+        <input type="hidden" class="form-control" id="token" name="token" required value="@Model.Bot.BotAccessToken">
         <button type="submit" class="btn btn-success">Save</button>
     </form>
     <hr>
@@ -115,7 +115,7 @@
                     <td>@interview.AnswerA</td>
                     <td>@interview.AnswerB</td>
                     <td>
-                        <a href="/bot/interview/remove?id=@interview.Id&botAccessToken=@Model.Bot.BotAccessToken">
+                        <a href="interviews/remove?id=@interview.Id&token=@Model.Bot.BotAccessToken">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -124,7 +124,7 @@
         </table>
     }
 
-    <form action="/bot/interview" class="form" method="POST">
+    <form action="/interviews/add" class="form" method="POST">
         <h4>Add interview:</h4>
         <div class="form-group">
             <label for="interviewName">Name:</label>
@@ -142,7 +142,7 @@
             <label for="answerB">Answer B:</label>
             <input type="text" class="form-control" id="answerB" name="answerB" required>
         </div>
-        <input type="hidden" class="form-control" id="botAccessToken" name="botAccessToken" required value="@Model.Bot.BotAccessToken">
+        <input type="hidden" class="form-control" id="token" name="token" required value="@Model.Bot.BotAccessToken">
         <button type="submit" class="btn btn-success">Save</button>
     </form>
 

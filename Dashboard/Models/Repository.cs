@@ -74,14 +74,26 @@ namespace Dashboard.Models
 			_inlineKeysCollection.InsertOne(inlineKey);
 		}
 
+		public void RemoveInlineKey(string id)
+		{
+			ValidateStringParam(id);
+			_inlineKeysCollection.DeleteOne(x => x.Id == new ObjectId(id));
+		}
+
 		public IEnumerable<Interview> GetInterviews()
 		{
 			return _interviewsCollection.Find(new BsonDocument()).ToEnumerable();
 		}
 
-		public void AddInterviews(Interview interview)
+		public void AddInterview(Interview interview)
 		{
 			_interviewsCollection.InsertOne(interview);
+		}
+
+		public void RemoveInterview(string id)
+		{
+			ValidateStringParam(id);
+			_interviewsCollection.DeleteOne(x => x.Id == new ObjectId(id));
 		}
 
 		public IEnumerable<OnTextAnswer> GetOnTextAnswers()
@@ -89,9 +101,15 @@ namespace Dashboard.Models
 			return _onTextAnswersCollection.Find(new BsonDocument()).ToEnumerable();
 		}
 
-		public void AddOnTextAnswers(OnTextAnswer onTextAnswer)
+		public void AddOnTextAnswer(OnTextAnswer onTextAnswer)
 		{
 			_onTextAnswersCollection.InsertOne(onTextAnswer);
+		}
+
+		public void RemoveOnTextAnswer(string id)
+		{
+			ValidateStringParam(id);
+			_onTextAnswersCollection.DeleteOne(x => x.Id == new ObjectId(id));
 		}
 
 		private static void ValidateStringParam(string param)
