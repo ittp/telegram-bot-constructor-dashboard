@@ -1,17 +1,26 @@
+using System.IO;
 using Dashboard.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Configuration;
 using Xunit;
 
 namespace Tests
 {
 	public class IntegrationTests
 	{
+		private readonly IConfigurationRoot _configuration;
+
+		public IntegrationTests()
+		{
+			_configuration = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory() + "/../../../../Dashboard/")
+				.AddJsonFile("appsettings.json")
+				.Build();
+		}
+
 		[Fact]
 		public void CreateConnectionAndGetBots()
 		{
-			const string token = "mongodb://admin:38ea0b9d@ds012058.mlab.com:12058/telegram-bot-constructor";
-			const string dbName = "telegram-bot-constructor";
-			var repository = new Repository(token, dbName);
+			var repository = new Repository(_configuration["Connection:Token"], _configuration["Connection:DBName"]);
 			Assert.NotNull(repository.GetBots());
 		}
 	}
