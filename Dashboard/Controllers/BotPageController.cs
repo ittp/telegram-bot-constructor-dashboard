@@ -35,7 +35,7 @@ namespace Dashboard.Controllers
 
 		[Route("/on-text-answers/remove")]
 		[HttpGet]
-		public IActionResult RemoveAnswer(string id, string token)
+		public IActionResult RemoveOnTextAnswer(string id, string token)
 		{
 			if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(token))
 			{
@@ -101,7 +101,7 @@ namespace Dashboard.Controllers
 
 		[Route("/interviews/remove")]
 		[HttpGet]
-		public IActionResult RemoveInterView(string id, string token)
+		public IActionResult RemoveInterview(string id, string token)
 		{
 			if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(token))
 			{

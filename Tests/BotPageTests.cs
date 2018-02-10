@@ -1,4 +1,5 @@
-﻿using Dashboard.Controllers;
+﻿using System.Linq;
+using Dashboard.Controllers;
 using Dashboard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Mongo2Go;
@@ -23,51 +24,109 @@ namespace Tests
 			Setup();
 
 			var botPageController = new BotPageController(_repository);
-			var bot = CreateBot();
-			var answer = CreateAnswer();
+			var bot = ModelsFather.CreateBot();
+			var onTextAnswer = ModelsFather.CreateOnTextAnswer();
+
 			_repository.AddBot(bot);
-			_repository.AddAnswer(answer);
+			_repository.AddOnTextAnswer(onTextAnswer);
 
 			var actionResult = botPageController.Index(bot.BotAccessToken);
 
 			var viewResult = Assert.IsType<ViewResult>(actionResult);
 			var viewModel = (BotPageViewModel) viewResult.Model;
 			Assert.NotStrictEqual(bot, viewModel.Bot);
-			Assert.NotEmpty(viewModel.Answers);
+			Assert.NotEmpty(viewModel.OnTextAnswers);
+			Dispose();
+		}
+
+		[Fact]
+		public void RemoveOnTextAnswer()
+		{
+			Setup();
+
+			var botPageController = new BotPageController(_repository);
+			var onTextAnswer = ModelsFather.CreateOnTextAnswer();
+			_repository.AddOnTextAnswer(onTextAnswer);
+
+			botPageController.RemoveOnTextAnswer(onTextAnswer.Id.ToString(), "token");
+
+			Assert.Empty(_repository.GetOnTextAnswers());
 
 			Dispose();
 		}
 
 		[Fact]
-		public void RemoveAnswer()
+		public void AddOnTextAnswer()
 		{
+			Setup();
+
 			var botPageController = new BotPageController(_repository);
-			var answer = CreateAnswer();
-			_repository.AddAnswer(answer);
 
-			botPageController.RemoveAnswer(answer.Id.ToString(), "token");
+			botPageController.AddOnTextAnswer("message", "answer", "token");
 
-			Assert.Empty(_repository.GetAnswers());
+			Assert.Equal("answer", _repository.GetOnTextAnswers().FirstOrDefault()?.AnswerText);
+
+			Dispose();
 		}
 
-		private static Bot CreateBot()
+		[Fact]
+		public void RemoveInlineKey()
 		{
-			return new Bot
-			{
-				BotAccessToken = "token",
-				BotName = "name"
-			};
+			Setup();
+
+			var botPageController = new BotPageController(_repository);
+			var inlineKey = ModelsFather.CreateInlineKey();
+			_repository.AddInlineKey(inlineKey);
+
+			botPageController.RemoveInlineKey(inlineKey.Id.ToString(), "token");
+
+			Assert.Empty(_repository.GetInlineKeys());
+
+			Dispose();
 		}
 
-		private static Answer CreateAnswer()
+		[Fact]
+		public void AddInlineKey()
 		{
-			return new Answer
-			{
-				AnswerText = "text",
-				BotAccessToken = "token",
-				InterviewName = "interview",
-				UserName = "user"
-			};
+			Setup();
+
+			var botPageController = new BotPageController(_repository);
+
+			botPageController.AddInlineKey("answer", "buttonText", "token");
+
+			Assert.Equal("answer", _repository.GetInlineKeys().FirstOrDefault()?.AnswerText);
+
+			Dispose();
+		}
+
+		[Fact]
+		public void RemoveInterview()
+		{
+			Setup();
+
+			var botPageController = new BotPageController(_repository);
+			var interview = ModelsFather.CreateInterview();
+			_repository.AddInterview(interview);
+
+			botPageController.RemoveInterview(interview.Id.ToString(), "token");
+
+			Assert.Empty(_repository.GetInterviews());
+
+			Dispose();
+		}
+
+		[Fact]
+		public void AddInterView()
+		{
+			Setup();
+
+			var botPageController = new BotPageController(_repository);
+
+			botPageController.AddInterview("token", "name", "a", "b", "question");
+
+			Assert.Equal("question", _repository.GetInterviews().FirstOrDefault()?.Question);
+
+			Dispose();
 		}
 
 		private void Setup()
