@@ -1,5 +1,8 @@
-﻿namespace Dashboard.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Dashboard.Models
 {
+	[BsonIgnoreExtraElements]
 	public class Interview
 	{
 		public string interviewName { get; set; }

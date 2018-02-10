@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Dashboard.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,23 +18,24 @@ namespace Dashboard
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc();
+
+			services.AddSingleton<IRepository>(new Repository(Configuration["Connection:Token"], Configuration["Connection:DBName"]));
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
+			{
 				app.UseDeveloperExceptionPage();
+			}
 			else
-				app.UseExceptionHandler("/Home/Error");
+			{
+				app.UseExceptionHandler("/error");
+			}
 
 			app.UseStaticFiles();
 
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					"default",
-					"{controller=Home}/{action=Index}/{id?}");
-			});
+			app.UseMvc();
 		}
 	}
 }

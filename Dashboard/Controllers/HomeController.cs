@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System.Linq;
 using Dashboard.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,28 +6,29 @@ namespace Dashboard.Controllers
 {
 	public class HomeController : Controller
 	{
+		private IRepository _repository;
+
+		public HomeController(IRepository repository)
+		{
+			_repository = repository;
+		}
+
+		[Route("/")]
 		public IActionResult Index()
 		{
-			return View();
+			var bots = _repository.GetBots().ToList();
+			return View(bots);
 		}
 
-		public IActionResult About()
+		[Route("/add")][HttpPost]
+		public IActionResult AddBot(string botName, string botAccessToken)
 		{
-			ViewData["Message"] = "Your application description page.";
-
-			return View();
-		}
-
-		public IActionResult Contact()
-		{
-			ViewData["Message"] = "Your contact page.";
-
-			return View();
-		}
-
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+			_repository.AddBot(new Bot
+			{
+				botName = botName,
+				botAccessToken = botAccessToken
+			});
+			return Redirect("/");
 		}
 	}
 }
