@@ -1,27 +1,32 @@
 using System.IO;
 using Dashboard.Models;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using Xunit;
 
 namespace Tests
 {
 	public class IntegrationTests
 	{
-		private readonly IConfigurationRoot _configuration;
+		private readonly Repository _repository;
 
 		public IntegrationTests()
 		{
-			_configuration = new ConfigurationBuilder()
+			var configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory() + "/../../../../Dashboard/")
 				.AddJsonFile("appsettings.json")
 				.Build();
+
+			_repository = new Repository(
+				configuration["Connection:Token"],
+				configuration["Connection:DBName"]
+			);
 		}
 
 		[Fact]
-		public void CreateConnectionAndGetBots()
+		public void GetBots()
 		{
-			var repository = new Repository(_configuration["Connection:Token"], _configuration["Connection:DBName"]);
-			Assert.NotNull(repository.GetBots());
+			Assert.NotNull(_repository.GetBots());
 		}
 	}
 }

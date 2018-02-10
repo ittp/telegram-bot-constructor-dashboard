@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace Dashboard
 {
@@ -19,7 +20,12 @@ namespace Dashboard
 		{
 			services.AddMvc();
 
-			services.AddSingleton<IRepository>(new Repository(Configuration["Connection:Token"], Configuration["Connection:DBName"]));
+			services.AddSingleton(
+				new Repository(
+					Configuration["Connection:Token"],
+					Configuration["Connection:DBName"]
+				)
+			);
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

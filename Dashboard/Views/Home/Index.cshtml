@@ -7,30 +7,33 @@
 <div class="container">
     <h2>Telegram Bot Constructor</h2>
     <hr>
-    <form action="/bot" class="form" method="GET">
-        <h4>Choose the bot:</h4>
-        <div class="form-group">
-        <label for="Bot">Bot:</label>
-            <select class="form-control" id="bot" name="botAccessToken" required>
-                @foreach (var bot in Model)
-                {
-                    <option value="@bot.BotAccessToken>">@bot.BotName</option>
-                }
-            </select>
-        <br>
-        <button type="submit" class="btn btn-success">OK</button>
-        </div>
-    </form>
+    @if (Model.Count > 0)
+    {
+        <form action="/bot-page" class="form" method="GET">
+            <h4>Choose the bot:</h4>
+            <div class="form-group">
+                <label for="token">Bot:</label>
+                <select class="form-control" id="bot" name="token" required>
+                    @foreach (var bot in Model)
+                    {
+                        <option name="token" value="@bot.BotAccessToken">@bot.BotName</option>
+                    }
+                </select>
+                <br>
+                <button type="submit" class="btn btn-success">OK</button>
+            </div>
+        </form>
+    }
     <hr>
-    <form action="/add" class="form" method="POST">
+    <form action="/bots/add" class="form" method="POST">
         <h4>Add the bot:</h4>
         <div class="form-group">
-            <label for="botName">Bot name:</label>
-            <input type="text" class="form-control" id="botName" name="botName" required>
+            <label for="name">Bot name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="form-group">
-            <label for="botAccessToken">Bot token:</label>
-            <input type="text" class="form-control" id="botAccessToken" name="botAccessToken" required>
+            <label for="token">Bot token:</label>
+            <input type="text" class="form-control" id="token" name="token" required>
         </div>
         <button type="submit" class="btn btn-success">Save</button>
     </form>

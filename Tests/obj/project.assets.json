@@ -2968,6 +2968,15 @@
           }
         }
       },
+      "Mongo2Go/2.2.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.6/Mongo2Go.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Mongo2Go.dll": {}
+        }
+      },
       "MongoDB.Bson/2.5.0": {
         "type": "package",
         "dependencies": {
@@ -8324,6 +8333,39 @@
         "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Mongo2Go/2.2.1": {
+      "sha512": "dLYc6M5LPREbwHSYhbLFSW+llOxR/G18AxnGxXBxeFovJGYTm7e/QgANFVpEXwbJZIj72zZHG1mcBOKPguxZLg==",
+      "type": "package",
+      "path": "mongo2go/2.2.1",
+      "files": [
+        "lib/netstandard1.6/Mongo2Go.deps.json",
+        "lib/netstandard1.6/Mongo2Go.dll",
+        "lib/netstandard1.6/Mongo2Go.pdb",
+        "mongo2go.2.2.1.nupkg.sha512",
+        "mongo2go.nuspec",
+        "tools/mongodb-linux-x86_64-3.4.7/GNU-AGPL-3.0",
+        "tools/mongodb-linux-x86_64-3.4.7/MPL-2",
+        "tools/mongodb-linux-x86_64-3.4.7/README",
+        "tools/mongodb-linux-x86_64-3.4.7/THIRD-PARTY-NOTICES",
+        "tools/mongodb-linux-x86_64-3.4.7/bin/mongod",
+        "tools/mongodb-linux-x86_64-3.4.7/bin/mongoexport",
+        "tools/mongodb-linux-x86_64-3.4.7/bin/mongoimport",
+        "tools/mongodb-osx-x86_64-3.4.7/GNU-AGPL-3.0",
+        "tools/mongodb-osx-x86_64-3.4.7/MPL-2",
+        "tools/mongodb-osx-x86_64-3.4.7/README",
+        "tools/mongodb-osx-x86_64-3.4.7/THIRD-PARTY-NOTICES",
+        "tools/mongodb-osx-x86_64-3.4.7/bin/mongod",
+        "tools/mongodb-osx-x86_64-3.4.7/bin/mongoexport",
+        "tools/mongodb-osx-x86_64-3.4.7/bin/mongoimport",
+        "tools/mongodb-win32-x86_64-2008plus-3.4.7/GNU-AGPL-3.0",
+        "tools/mongodb-win32-x86_64-2008plus-3.4.7/MPL-2",
+        "tools/mongodb-win32-x86_64-2008plus-3.4.7/README",
+        "tools/mongodb-win32-x86_64-2008plus-3.4.7/THIRD-PARTY-NOTICES",
+        "tools/mongodb-win32-x86_64-2008plus-3.4.7/bin/mongod.exe",
+        "tools/mongodb-win32-x86_64-2008plus-3.4.7/bin/mongoexport.exe",
+        "tools/mongodb-win32-x86_64-2008plus-3.4.7/bin/mongoimport.exe"
       ]
     },
     "MongoDB.Bson/2.5.0": {
@@ -14023,6 +14065,7 @@
       "Dashboard >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 15.5.0",
       "Microsoft.NETCore.App >= 2.0.0",
+      "Mongo2Go >= 2.2.1",
       "xunit >= 2.3.1",
       "xunit.runner.visualstudio >= 2.3.1"
     ]
@@ -14082,6 +14125,10 @@
             "target": "Package",
             "version": "[2.0.0, )",
             "autoReferenced": true
+          },
+          "Mongo2Go": {
+            "target": "Package",
+            "version": "[2.2.1, )"
           },
           "xunit": {
             "target": "Package",

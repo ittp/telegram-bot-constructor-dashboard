@@ -40,6 +40,10 @@
           "version": "[2.0.0, )",
           "autoReferenced": true
         },
+        "Mongo2Go": {
+          "target": "Package",
+          "version": "[2.2.1, )"
+        },
         "xunit": {
           "target": "Package",
           "version": "[2.3.1, )"

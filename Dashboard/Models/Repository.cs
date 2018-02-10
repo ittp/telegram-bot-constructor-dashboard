@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 
 namespace Dashboard.Models
 {
-	public class Repository : IRepository
+	public class Repository
 	{
 		private readonly IMongoCollection<Bot> _botsCollection;
 		private readonly IMongoCollection<Answer> _answersCollection;
@@ -25,21 +28,78 @@ namespace Dashboard.Models
 			_onTextAnswersCollection = database.GetCollection<OnTextAnswer>("ontextanswers");
 		}
 
-		public IEnumerable<Bot> GetBots() => _botsCollection.Find(new BsonDocument()).ToEnumerable();
+		public IEnumerable<Bot> GetBots()
+		{
+			return _botsCollection.Find(new BsonDocument()).ToList();
+		}
 
-		public IEnumerable<Bot> GetBots(Expression<Func<Bot, bool>> predicat) => _botsCollection.Find(predicat).ToEnumerable();
+		public IEnumerable<Bot> GetBots(Expression<Func<Bot, bool>> predicat)
+		{
+			return _botsCollection.Find(predicat).ToList();
+		}
 
-		public Bot GetBotByToken(string token) => GetBots(x => x.BotAccessToken == token).FirstOrDefault();
+		public Bot GetBotByToken(string token)
+		{
+			return GetBots(x => x.BotAccessToken == token).FirstOrDefault();
+		}
 
-		public IEnumerable<Answer> GetAnswers() => _answersCollection.Find(new BsonDocument()).ToEnumerable();
+		public void AddBot(Bot bot)
+		{
+			_botsCollection.InsertOne(bot);
+		}
 
-		public IEnumerable<InlineKey> GetInlineKeys() => _inlineKeysCollection.Find(new BsonDocument()).ToEnumerable();
+		public IEnumerable<Answer> GetAnswers()
+		{
+			return _answersCollection.Find(new BsonDocument()).ToEnumerable();
+		}
 
-		public IEnumerable<Interview> GetInterviews() => _interviewsCollection.Find(new BsonDocument()).ToEnumerable();
+		public void AddAnswer(Answer answer)
+		{
+			_answersCollection.InsertOne(answer);
+		}
 
-		public IEnumerable<OnTextAnswer> GetOnTextAnswers() =>
-			_onTextAnswersCollection.Find(new BsonDocument()).ToEnumerable();
+		public void RemoveAnswer(string id)
+		{
+			ValidateStringParam(id);
+			_answersCollection.DeleteOne(x => x.Id == new ObjectId(id));
+		}
 
-		public void AddBot(Bot bot) => _botsCollection.InsertOne(bot);
+		public IEnumerable<InlineKey> GetInlineKeys()
+		{
+			return _inlineKeysCollection.Find(new BsonDocument()).ToEnumerable();
+		}
+
+		public void AddInlineKey(InlineKey inlineKey)
+		{
+			_inlineKeysCollection.InsertOne(inlineKey);
+		}
+
+		public IEnumerable<Interview> GetInterviews()
+		{
+			return _interviewsCollection.Find(new BsonDocument()).ToEnumerable();
+		}
+
+		public void AddInterviews(Interview interview)
+		{
+			_interviewsCollection.InsertOne(interview);
+		}
+
+		public IEnumerable<OnTextAnswer> GetOnTextAnswers()
+		{
+			return _onTextAnswersCollection.Find(new BsonDocument()).ToEnumerable();
+		}
+
+		public void AddOnTextAnswers(OnTextAnswer onTextAnswer)
+		{
+			_onTextAnswersCollection.InsertOne(onTextAnswer);
+		}
+
+		private static void ValidateStringParam(string param)
+		{
+			if (param.Contains("{") || param.Contains("}"))
+			{
+				throw new Exception("Non-Secure Param");
+			}
+		}
 	}
 }

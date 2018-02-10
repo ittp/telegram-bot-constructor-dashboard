@@ -6,9 +6,9 @@ namespace Dashboard.Controllers
 {
 	public class HomeController : Controller
 	{
-		private IRepository _repository;
+		private readonly Repository _repository;
 
-		public HomeController(IRepository repository)
+		public HomeController(Repository repository)
 		{
 			_repository = repository;
 		}
@@ -19,13 +19,14 @@ namespace Dashboard.Controllers
 			return View(_repository.GetBots().ToList());
 		}
 
-		[Route("/add")][HttpPost]
-		public IActionResult AddBot(string botName, string botAccessToken)
+		[Route("/bots/add")]
+		[HttpPost]
+		public IActionResult AddBot(string name, string token)
 		{
 			_repository.AddBot(new Bot
 			{
-				BotName = botName,
-				BotAccessToken = botAccessToken
+				BotName = name,
+				BotAccessToken = token
 			});
 			return Redirect("/");
 		}
