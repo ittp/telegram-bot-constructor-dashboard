@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "C:\\Workspace\\HackatonBotDashboard\\Dashboard\\Dashboard.csproj",
-    "projectName": "Dashboard",
-    "projectPath": "C:\\Workspace\\HackatonBotDashboard\\Dashboard\\Dashboard.csproj",
-    "outputPath": "C:\\Workspace\\HackatonBotDashboard\\Dashboard\\obj\\",
+    "projectUniqueName": "C:\\Workspace\\HackatonBotDashboard\\Tests\\Tests.csproj",
+    "projectName": "Tests",
+    "projectPath": "C:\\Workspace\\HackatonBotDashboard\\Tests\\Tests.csproj",
+    "outputPath": "C:\\Workspace\\HackatonBotDashboard\\Tests\\obj\\",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -14,7 +14,11 @@
     ],
     "frameworks": {
       "netcoreapp2.0": {
-        "projectReferences": {}
+        "projectReferences": {
+          "C:\\Workspace\\HackatonBotDashboard\\Dashboard\\Dashboard.csproj": {
+            "projectPath": "C:\\Workspace\\HackatonBotDashboard\\Dashboard\\Dashboard.csproj"
+          }
+        }
       }
     },
     "warningProperties": {
@@ -26,9 +30,9 @@
   "frameworks": {
     "netcoreapp2.0": {
       "dependencies": {
-        "Microsoft.AspNetCore.All": {
+        "Microsoft.NET.Test.Sdk": {
           "target": "Package",
-          "version": "[2.0.5, )"
+          "version": "[15.5.0, )"
         },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
@@ -36,17 +40,13 @@
           "version": "[2.0.0, )",
           "autoReferenced": true
         },
-        "MongoDB.Bson": {
+        "xunit": {
           "target": "Package",
-          "version": "[2.5.0, )"
+          "version": "[2.3.1, )"
         },
-        "MongoDB.Driver": {
+        "xunit.runner.visualstudio": {
           "target": "Package",
-          "version": "[2.5.0, )"
-        },
-        "MongoDB.Driver.Core": {
-          "target": "Package",
-          "version": "[2.5.0, )"
+          "version": "[2.3.1, )"
         }
       },
       "imports": [
