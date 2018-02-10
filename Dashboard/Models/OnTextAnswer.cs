@@ -5,8 +5,8 @@ namespace Dashboard.Models
 	[BsonIgnoreExtraElements]
 	public class OnTextAnswer
 	{
-		public string messageText { get; set; }
-		public string answerText { get; set; }
-		public string botAccessToken { get; set; }
+		public string MessageText { get; set; }
+		public string AnswerText { get; set; }
+		public string BotAccessToken { get; set; }
 	}
 }

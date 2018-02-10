@@ -5,7 +5,7 @@ namespace Dashboard.Models
 	[BsonIgnoreExtraElements]
 	public class Bot
 	{
-		public string botName { get; set; }
-		public string botAccessToken { get; set; }
+		public string BotName { get; set; }
+		public string BotAccessToken { get; set; }
 	}
 }

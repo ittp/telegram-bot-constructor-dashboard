@@ -16,8 +16,7 @@ namespace Dashboard.Controllers
 		[Route("/")]
 		public IActionResult Index()
 		{
-			var bots = _repository.GetBots().ToList();
-			return View(bots);
+			return View(_repository.GetBots().ToList());
 		}
 
 		[Route("/add")][HttpPost]
@@ -25,8 +24,8 @@ namespace Dashboard.Controllers
 		{
 			_repository.AddBot(new Bot
 			{
-				botName = botName,
-				botAccessToken = botAccessToken
+				BotName = botName,
+				BotAccessToken = botAccessToken
 			});
 			return Redirect("/");
 		}

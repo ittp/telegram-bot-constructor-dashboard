@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -27,6 +28,8 @@ namespace Dashboard.Models
 		public IEnumerable<Bot> GetBots() => _botsCollection.Find(new BsonDocument()).ToEnumerable();
 
 		public IEnumerable<Bot> GetBots(Expression<Func<Bot, bool>> predicat) => _botsCollection.Find(predicat).ToEnumerable();
+
+		public Bot GetBotByToken(string token) => GetBots(x => x.BotAccessToken == token).FirstOrDefault();
 
 		public IEnumerable<Answer> GetAnswers() => _answersCollection.Find(new BsonDocument()).ToEnumerable();
 
