@@ -1,0 +1,172 @@
+﻿@model BotPageViewModel
+
+@{
+    ViewData["Title"] = "Bot";
+}
+
+<div class="container">
+    <h2>
+        Telegram Bot Constructor |
+        @Model.Bot.BotName
+    </h2>
+    <hr>
+    <h3>On text answers:</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Message</th>
+            <th scope="col">Answer</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var onTextAnswer in Model.OnTextAnswers)
+        {
+            <tr>
+                <td>@onTextAnswer.MessageText</td>
+                <td>@onTextAnswer.AnswerText</td>
+                <td>
+                    <a href="/on-text-answers/remove?id=@onTextAnswer.Id&token=@Model.Bot.BotAccessToken">
+                        <span class="glyphicon glyphicon-remove">
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <form action="/on-text-answers/add" class="form" method="POST">
+        <h4>Add on text answer:</h4>
+        <div class="form-group">
+            <label for="messageText">Message text:</label>
+            <input type="text" class="form-control" id="messageText" name="messageText" required>
+        </div>
+        <div class="form-group">
+            <label for="answerText">Answer text:</label>
+            <input type="text" class="form-control" id="answerText" name="answerText" required>
+        </div>
+        <input type="hidden" class="form-control" id="token" name="token" required value="@Model.Bot.BotAccessToken">
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+    <hr>
+
+    <h3>Inline keyboard:</h3>
+    @if (Model.InlineKeys.Count > 0)
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Button text</th>
+                <th scope="col">Answer</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var inlineKey in Model.InlineKeys)
+            {
+                <tr>
+                    <td>@inlineKey.ButtonText</td>
+                    <td>@inlineKey.AnswerText</td>
+                    <td>
+                        <a href="/inline-keys/remove?id=@inlineKey.Id&token=@Model.Bot.BotAccessToken">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+
+    <form action="/inline-keys/add" class="form" method="POST">
+        <h4>Add inline key:</h4>
+        <div class="form-group">
+            <label for="buttonText">Caption:</label>
+            <input type="text" class="form-control" id="buttonText" name="buttonText" required>
+        </div>
+        <div class="form-group">
+            <label for="answerText">Answer text:</label>
+            <input type="text" class="form-control" id="answerText" name="answerText" required>
+        </div>
+        <input type="hidden" class="form-control" id="token" name="token" required value="@Model.Bot.BotAccessToken">
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+    <hr>
+
+    <h3>Interviews</h3>
+    @if (Model.Interviews.Count > 0)
+    {
+        <h4>Current interviews:</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Question</th>
+                <th scope="col">answerA</th>
+                <th scope="col">answerA</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var interview in Model.Interviews)
+            {
+                <tr>
+                    <td>@interview.InterviewName</td>
+                    <td>@interview.Question</td>
+                    <td>@interview.AnswerA</td>
+                    <td>@interview.AnswerB</td>
+                    <td>
+                        <a href="interviews/remove?id=@interview.Id&token=@Model.Bot.BotAccessToken">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+
+    <form action="/interviews/add" class="form" method="POST">
+        <h4>Add interview:</h4>
+        <div class="form-group">
+            <label for="interviewName">Name:</label>
+            <input type="text" class="form-control" id="interviewName" name="interviewName" required>
+        </div>
+        <div class="form-group">
+            <label for="question">Question:</label>
+            <input type="text" class="form-control" id="question" name="question" required>
+        </div>
+        <div class="form-group">
+            <label for="answerA">Answer A:</label>
+            <input type="text" class="form-control" id="answerA" name="answerA" required>
+        </div>
+        <div class="form-group">
+            <label for="answerB">Answer B:</label>
+            <input type="text" class="form-control" id="answerB" name="answerB" required>
+        </div>
+        <input type="hidden" class="form-control" id="token" name="token" required value="@Model.Bot.BotAccessToken">
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+
+    @if (Model.Answers.Count > 0)
+    {
+        <h4>Current answers:</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Interview</th>
+                <th scope="col">Answer</th>
+                <th scope="col">Person</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var answer in Model.Answers)
+            {
+                <tr>
+                    <td>@answer.InterviewName</td>
+                    <td>@answer.AnswerText</td>
+                    <td>@answer.UserName</td>
+                </tr>
+            }
+        </table>
+    }
+    <hr>
+</div>
