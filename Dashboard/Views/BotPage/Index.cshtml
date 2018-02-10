@@ -1,7 +1,171 @@
-﻿@{
+﻿@model BotPageViewModel
+
+@{
     ViewData["Title"] = "Bot";
 }
 
 <div class="container">
+    <h2>
+        Telegram Bot Constructor |
+        @Model.Bot.BotName
+    </h2>
+    <hr>
+    <h3>On text answers:</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Message</th>
+            <th scope="col">Answer</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var answer in Model.Answers)
+        {
+            <tr>
+                <td>@answer.interviewName</td>
+                <td>@answer.answerText</td>
+                <td>
+                    <a href="/bot/answer/remove?id=0&botAccessToken=0">
+                        <span class="glyphicon glyphicon-remove">
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
 
+    <form action="/bot/answer" class="form" method="POST">
+        <h4>Add on text answer:</h4>
+        <div class="form-group">
+            <label for="messageText">Message text:</label>
+            <input type="text" class="form-control" id="messageText" name="messageText" required>
+        </div>
+        <div class="form-group">
+            <label for="answerText">Answer text:</label>
+            <input type="text" class="form-control" id="answerText" name="answerText" required>
+        </div>
+        <input type="hidden" class="form-control" id="botAccessToken" name="botAccessToken" required value=@Model.Bot.BotAccessToken>
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+    <hr>
+
+    <!--
+    <h3>Inline keyboard:</h3>
+    <%if(inlineKeys.length > 0){%>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Button text</th>
+            <th scope="col">Answer</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%for(let i=0;i
+        <inlineKeys.length;i++) {%>
+        <tr>
+            <td><%=inlineKeys[i].buttonText%></td>
+            <td><%=inlineKeys[i].answerText%></td>
+            <td>
+                <a href="/bot/inlinekey/remove?id=<%= inlineKeys[i]._id%>&botAccessToken=<%= bot.botAccessToken%>">
+                    <span class="glyphicon glyphicon-remove">
+                </a></span>
+            </td>
+        </tr>
+        <%}%>
+    </table>
+    <%}%>
+
+    <form action="/bot/inlinekey" class="form" method="POST">
+        <h4>Add inline key:</h4>
+        <div class="form-group">
+            <label for="buttonText">Caption:</label>
+            <input type="text" class="form-control" id="buttonText" name="buttonText" required>
+        </div>
+        <div class="form-group">
+            <label for="answerText">Answer text:</label>
+            <input type="text" class="form-control" id="answerText" name="answerText" required>
+        </div>
+        <input type="hidden" class="form-control" id="botAccessToken" name="botAccessToken" required value=<%= bot.botAccessToken%>>
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+    <hr>
+
+    <h3>Interviews</h3>
+    <% if(interviews.length > 0) {%>
+    <h4>Current interviews:</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Question</th>
+            <th scope="col">answerA</th>
+            <th scope="col">answerA</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%for(let i=0;i
+        <interviews.length;i++) {%>
+        <tr>
+            <td><%=interviews[i].interviewName%></td>
+            <td><%=interviews[i].question%></td>
+            <td><%=interviews[i].answerA%></td>
+            <td><%=interviews[i].answerB%></td>
+            <td>
+                <a href="/bot/interview/remove?id=<%= interviews[i]._id%>&botAccessToken=<%= bot.botAccessToken%>">
+                    <span class="glyphicon glyphicon-remove">
+                </a></span>
+            </td>
+        </tr>
+        <%}%>
+    </table>
+    <%}%>
+
+    <form action="/bot/interview" class="form" method="POST">
+        <h4>Add interview:</h4>
+        <div class="form-group">
+            <label for="interviewName">Name:</label>
+            <input type="text" class="form-control" id="interviewName" name="interviewName" required>
+        </div>
+        <div class="form-group">
+            <label for="question">Question:</label>
+            <input type="text" class="form-control" id="question" name="question" required>
+        </div>
+        <div class="form-group">
+            <label for="answerA">Answer A:</label>
+            <input type="text" class="form-control" id="answerA" name="answerA" required>
+        </div>
+        <div class="form-group">
+            <label for="answerB">Answer B:</label>
+            <input type="text" class="form-control" id="answerB" name="answerB" required>
+        </div>
+        <input type="hidden" class="form-control" id="botAccessToken" name="botAccessToken" required value=<%= bot.botAccessToken%>>
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+
+    <% if(interviewAnswers.length > 0) {%>
+    <h4>Current answers:</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Interview</th>
+            <th scope="col">Answer</th>
+            <th scope="col">Person</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%for(let i=0;i
+        <interviewAnswers.length;i++) {%>
+        <tr>
+            <td><%=interviewAnswers[i].interviewName%></td>
+            <td><%=interviewAnswers[i].answerText%></td>
+            <td><%=interviewAnswers[i].userName%></td>
+        </tr>
+        <%}%>
+    </table>
+    <% } %>
+    <hr>
+    -->
 </div>
