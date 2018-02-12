@@ -2,39 +2,35 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { IBot } from "../Models/IBot";
 
+
 interface IHomeState {
 	bots: IBot[];
-	loading: boolean;
-	error: any
+	error: string
+}
+
+async function getBots(): Promise<any> {
+	return new Promise((resolve, reject)=>{
+		fetch('/api/bots', {mode: "no-cors"}).then(response => {
+			if (response.status != 200) {
+				reject('Cant get data. Response status: ' + response.status);
+			}
+			response.json().then(data => {
+				resolve(data as IBot[]);
+			});
+		});
+	});
 }
 
 export class Home extends React.Component<RouteComponentProps<{}>, IHomeState> {
 	constructor() {
 		super();
-		this.state = {bots: [], loading: true, error: null};
+		this.state = {bots : [], error: ''};
 
-		let apiUrl = 'http://localhost:3000/';
-		let self = this;
-
-		fetch(apiUrl + 'api/bots', {mode: "no-cors"})
-			.then(res => {
-				console.log(res.status);
-				if (res.status != 200) {
-					self.setState((prevState => {
-						prevState.error = "Faled to get data from " + apiUrl;
-						prevState.loading = false;
-					}));
-				}
-				res.json().then(data => {
-					console.log(data);
-					self.state = {bots: data as IBot[], loading: false, error: null};
-				}).catch(error => {
-					self.state = {bots: [], loading: false, error: error};
-				});
-			})
-			.catch(error => {
-				self.state = {bots: [], loading: false, error: error};
-			});
+		getBots().then(bots => {
+			this.setState({bots, error: ''});
+		}).catch(error => {
+			this.setState({bots: [], error: error});
+		});
 	}
 
 	private static renderBots(bots: IBot[]) {
@@ -59,18 +55,14 @@ export class Home extends React.Component<RouteComponentProps<{}>, IHomeState> {
 	public render() {
 		console.log(this.state.error);
 
-		let hasError = this.state.error != null
-			? <h4 className="page-error"> { "Error: " + this.state.error} </h4>
+		let hasError = this.state.error != ''
+			? <h4 className="page-error"> {"Error: " + this.state.error} </h4>
 			: null;
-
-		let contents = this.state.loading
-			? <h4>Loading...</h4>
-			: Home.renderBots(this.state.bots);
 
 		return <div>
 			<h1>Bots</h1>
 			{hasError}
-			{contents}
+			{Home.renderBots(this.state.bots)}
 		</div>;
 	}
 }
