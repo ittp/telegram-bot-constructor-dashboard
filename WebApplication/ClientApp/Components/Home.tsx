@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { IBot } from "../Models/IBot";
-
+import { IBot } from '../Models/IBot';
+import { ApiClient } from '../Models/ApiClient';
 
 interface IHomeState {
 	bots: IBot[];
@@ -9,25 +9,12 @@ interface IHomeState {
 	loading: boolean;
 }
 
-async function getBots(): Promise<any> {
-	return new Promise((resolve, reject)=>{
-		fetch('/api/bots', {mode: "no-cors"}).then(response => {
-			if (response.status != 200) {
-				reject('Cant get data. Response status: ' + response.status);
-			}
-			response.json().then(data => {
-				resolve(data as IBot[]);
-			});
-		});
-	});
-}
-
 export class Home extends React.Component<RouteComponentProps<{}>, IHomeState> {
 	constructor() {
 		super();
 		this.state = {bots : [], error: '', loading: true};
 
-		getBots().then(bots => {
+		ApiClient.getBots().then(bots => {
 			this.setState({bots, error: '', loading: false});
 		}).catch(error => {
 			this.setState({bots: [], error: error, loading: false});
