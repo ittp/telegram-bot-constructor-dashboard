@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Joonasw.AspNetCore.SecurityHeaders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -24,6 +25,11 @@ namespace WebApplication
 			services.AddMvc();
 		}
 
+		public void ConfigureCSP(IApplicationBuilder app)
+		{
+			//app.UseCsp(csp => { csp.ByDefaultAllow.FromSelf(); });
+		}
+
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
@@ -41,6 +47,8 @@ namespace WebApplication
 			}
 
 			app.UseStaticFiles();
+
+			ConfigureCSP(app);
 
 			app.UseMvc(routes =>
 			{

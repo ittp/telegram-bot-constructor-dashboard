@@ -23,7 +23,7 @@ module.exports = (env) => {
             path: path.join(__dirname, 'wwwroot', 'dist'),
             publicPath: 'dist/',
             filename: '[name].js',
-            library: '[name]_[hash]',
+            library: '[name]_[hash]'
         },
         plugins: [
             extractCSS,

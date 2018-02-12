@@ -8,7 +8,7 @@ module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
     return [{
         stats: { modules: false },
-        entry: { 'main': './ClientApp/boot.tsx' },
+        entry: { 'main': './ClientApp/Boot.tsx' },
         resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
         output: {
             path: path.join(__dirname, bundleOutputDir),
@@ -37,7 +37,7 @@ module.exports = (env) => {
         ] : [
             // Plugins that apply in production builds only
             new webpack.optimize.UglifyJsPlugin(),
-            new ExtractTextPlugin('site.css')
+            new ExtractTextPlugin('Site.css')
         ])
     }];
 };
