@@ -27,7 +27,11 @@ namespace WebApplication
 
 		public void ConfigureCSP(IApplicationBuilder app)
 		{
-			//app.UseCsp(csp => { csp.ByDefaultAllow.FromSelf(); });
+			app.UseCsp(csp =>
+			{
+				csp.AllowConnections.ToSelf().To("http://localhost:3000");
+				//csp.AllowFormActions.ToSelf().ToAnywhere();
+			});
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

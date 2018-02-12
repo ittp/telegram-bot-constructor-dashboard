@@ -13,7 +13,7 @@ export class NavMenu extends React.Component<{}, {}> {
 						<span className='icon-bar'/>
 						<span className='icon-bar'/>
 					</button>
-					<Link className='navbar-brand' to={'/'}>Bot Constructor</Link>
+					<Link className='navbar-brand' to={'/'}>Dashboard</Link>
 				</div>
 				<div className='clearfix'/>
 				<div className='navbar-collapse collapse'>
