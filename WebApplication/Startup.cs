@@ -22,16 +22,9 @@ namespace WebApplication
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMvc();
-		}
+			services.AddSingleton<IConfiguration>(Configuration);
 
-		public void ConfigureCSP(IApplicationBuilder app)
-		{
-			app.UseCsp(csp =>
-			{
-				csp.AllowConnections.ToSelf().To("http://localhost:3000");
-				//csp.AllowFormActions.ToSelf().ToAnywhere();
-			});
+			services.AddMvc();
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -51,8 +44,6 @@ namespace WebApplication
 			}
 
 			app.UseStaticFiles();
-
-			ConfigureCSP(app);
 
 			app.UseMvc(routes =>
 			{

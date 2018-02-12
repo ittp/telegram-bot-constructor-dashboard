@@ -5,7 +5,8 @@ import { IBot } from "../Models/IBot";
 
 interface IHomeState {
 	bots: IBot[];
-	error: string
+	error: string,
+	loading: boolean;
 }
 
 async function getBots(): Promise<any> {
@@ -24,12 +25,12 @@ async function getBots(): Promise<any> {
 export class Home extends React.Component<RouteComponentProps<{}>, IHomeState> {
 	constructor() {
 		super();
-		this.state = {bots : [], error: ''};
+		this.state = {bots : [], error: '', loading: true};
 
 		getBots().then(bots => {
-			this.setState({bots, error: ''});
+			this.setState({bots, error: '', loading: false});
 		}).catch(error => {
-			this.setState({bots: [], error: error});
+			this.setState({bots: [], error: error, loading: false});
 		});
 	}
 
@@ -53,8 +54,6 @@ export class Home extends React.Component<RouteComponentProps<{}>, IHomeState> {
 	}
 
 	public render() {
-		console.log(this.state.error);
-
 		let hasError = this.state.error != ''
 			? <h4 className="page-error"> {"Error: " + this.state.error} </h4>
 			: null;
@@ -62,7 +61,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, IHomeState> {
 		return <div>
 			<h1>Bots</h1>
 			{hasError}
-			{Home.renderBots(this.state.bots)}
+			{this.state.loading ? <h4>Loading...</h4> : Home.renderBots(this.state.bots)}
 		</div>;
 	}
 }
