@@ -9,8 +9,7 @@
 			try {
 				fetch(url, {mode: "no-cors"}).then(response => {
 					response.json().then(data => {
-						reject('Cant get data');
-						//resolve(data);
+						resolve(data);
 					});
 				});
 			} catch (e) {
