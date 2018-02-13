@@ -20,7 +20,6 @@ export class Layout extends React.Component<{}, ILayoutState> {
 	}
 
 	onAlert(message: string) {
-		console.log('hello');
 		this.setState(prevState => ({alert: {message: message, isError: false}}));
 	}
 

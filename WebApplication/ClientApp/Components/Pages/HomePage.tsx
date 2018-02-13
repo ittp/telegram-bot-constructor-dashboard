@@ -5,12 +5,12 @@ import { IBot } from "../../Models/IBot";
 import { Preloader } from "../Domain/Preloader";
 import { ILayoutCallbacks } from "../Layout";
 
-interface IBotsFormState {
+interface IHomePageState {
 	bots: IBot[];
 	loading: boolean;
 }
 
-export class HomePage extends React.Component<ILayoutCallbacks, IBotsFormState> {
+export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> {
 	constructor() {
 		super();
 		this.state = {bots: [], loading: false};
