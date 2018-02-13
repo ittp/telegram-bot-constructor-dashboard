@@ -1,16 +1,42 @@
-﻿import { IBot } from "./IBot";
+﻿export class ApiClient {
+	static urlParams(data: FormData) {
+		return [ ...data.entries() ]
+			.map(e => encodeURIComponent(e[ 0 ]) + "=" + encodeURIComponent(e[ 1 ].toString())).join('&');
+	}
 
-export class ApiClient {
-	static async getBots(): Promise<any> {
-		return new Promise((resolve, reject) => {
-			fetch('/api/bots', {mode: "no-cors"}).then(response => {
-				if (response.status != 200) {
-					reject('Cant get data. Response status: ' + response.status);
-				}
-				response.json().then(data => {
-					resolve(data as IBot[]);
+	static async get(url: any): Promise<any> {
+		return new Promise<any>((resolve, reject) => {
+			try {
+				fetch(url, {mode: "no-cors"}).then(response => {
+					response.json().then(data => {
+						resolve(data);
+					});
 				});
-			});
+			} catch (e) {
+				reject('Cant get data');
+			}
+		});
+	}
+
+	static async post(url: string, data: FormData): Promise<any> {
+		return new Promise<any>((resolve, reject) => {
+			try {
+				fetch(url, {
+						mode: "no-cors",
+						method: 'post',
+						headers: {
+							"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+						},
+						body: ApiClient.urlParams(data)
+					}
+				).then((response) => {
+					response.json().then(data => {
+						resolve(data);
+					});
+				});
+			} catch (e) {
+				reject('Cant post data');
+			}
 		});
 	}
 }
