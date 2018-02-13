@@ -31,7 +31,7 @@ export class HomePage extends React.Component<RouteComponentProps<IHomePageProps
 			ApiClient.get('/api/bots').then((bots: IBot[]) => {
 				this.setState({bots: bots, error: '', loading: false, alert: ''});
 			}).catch(error => {
-				this.setState(Object.assign(this.state, {error: error}));
+				this.setState({bots: [], error: error, loading: false, alert: ''});
 			});
 		}
 	}
@@ -54,8 +54,8 @@ export class HomePage extends React.Component<RouteComponentProps<IHomePageProps
 				<h1>Bots: </h1>
 				{this.renderAlert()}
 				{this.renderError()}
-				{this.renderBots()}
-				{this.renderForm()}
+				{this.state.error == '' ? this.renderBots() : null}
+				{this.state.error == '' ? this.renderForm() : null}
 			</div>
 		);
 	}
@@ -92,7 +92,7 @@ export class HomePage extends React.Component<RouteComponentProps<IHomePageProps
 		ApiClient.post('/api/remove-bot', data).then(() => {
 			this.getData();
 		}).catch(error => {
-			this.setState(Object.assign(this.state, {error: error}));
+			this.setState({bots: [], error: error, loading: false, alert: ''});
 		});
 	}
 
