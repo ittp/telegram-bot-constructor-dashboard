@@ -1,37 +1,29 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { IBot } from '../../Models/IBot';
-import { ApiClient } from '../../Models/ApiClient';
-import { Error } from '../Domain/Error';
-import { Preloader } from '../Domain/Preloader';
+import { ApiClient } from "../../Models/ApiClient";
 import { FormEvent } from "react";
-import { Alert } from "../Domain/Alert";
+import { IBot } from "../../Models/IBot";
+import { Preloader } from "../Domain/Preloader";
+import { ILayoutCallbacks } from "../Layout";
 
-interface IHomeState {
+interface IBotsFormState {
 	bots: IBot[];
-	error: string,
-	alert: string,
 	loading: boolean;
 }
 
-interface IHomePageProps {
-	onError: Function,
-	onAlert: Function
-}
-
-export class HomePage extends React.Component<RouteComponentProps<IHomePageProps>, IHomeState> {
+export class HomePage extends React.Component<ILayoutCallbacks, IBotsFormState> {
 	constructor() {
 		super();
-		this.state = {bots: [], error: '', loading: false, alert: ''};
+		this.state = {bots: [], loading: false};
 	}
 
 	getData() {
 		if (!this.state.loading) {
-			this.setState(Object.assign(this.state, {loading: true}));
+			this.setState({loading: true});
+
 			ApiClient.get('/api/bots').then((bots: IBot[]) => {
-				this.setState({bots: bots, error: '', loading: false, alert: ''});
+				this.setState({bots: bots, loading: false});
 			}).catch(error => {
-				this.setState({bots: [], error: error, loading: false, alert: ''});
+				this.props.onError(error);
 			});
 		}
 	}
@@ -41,21 +33,20 @@ export class HomePage extends React.Component<RouteComponentProps<IHomePageProps
 	}
 
 	render() {
+		let title = (<h2> Bots </h2>);
 		if (this.state.loading) {
 			return (
 				<div>
-					<h1>Bots: </h1>
+					{title}
 					<Preloader/>
 				</div>
 			)
 		}
 		return (
 			<div>
-				<h1>Bots: </h1>
-				{this.renderAlert()}
-				{this.renderError()}
-				{this.state.error == '' ? this.renderBots() : null}
-				{this.state.error == '' ? this.renderForm() : null}
+				{title}
+				{this.renderBots()}
+				{this.renderForm()}
 			</div>
 		);
 	}
@@ -75,7 +66,7 @@ export class HomePage extends React.Component<RouteComponentProps<IHomePageProps
 					<td>{bot.name}</td>
 					<td>{bot.token}</td>
 					<td>
-						<button onClick={(e)=> this.handleRemoveBot(bot.id)} className="btn btn-default">
+						<button onClick={(e) => this.handleRemoveBot(bot.id)} className="btn btn-default">
 							Remove
 						</button>
 					</td>
@@ -85,66 +76,60 @@ export class HomePage extends React.Component<RouteComponentProps<IHomePageProps
 		</table>;
 	}
 
-	handleRemoveBot(id: string){
+	handleRemoveBot(id: string) {
 		let data = new FormData();
 		data.append('id', id);
 
 		ApiClient.post('/api/remove-bot', data).then(() => {
 			this.getData();
 		}).catch(error => {
-			this.setState({bots: [], error: error, loading: false, alert: ''});
+			this.props.onError(error);
 		});
 	}
 
 	handleSubmitForm(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		let name = (this.refs.name as HTMLInputElement).value;
-		let token = (this.refs.token as HTMLInputElement).value;
+		let nameRef = this.refs.name as HTMLInputElement;
+		let tokenRef = this.refs.token as HTMLInputElement;
 
-		if (name == '' || token == '') {
-			return this.setState(Object.assign(this.state, {alert: 'Input error (TODO: Нужно будет проверять не только пустые поля)'}));
+		if (nameRef.value == '' || tokenRef.value == '') {
+			this.props.onAlert('Validation error');
 		}
 
 		let data = new FormData();
-		data.append('name', name);
-		data.append('token', token);
+		data.append('name', nameRef.value);
+		data.append('token', tokenRef.value);
 
 		ApiClient.post('/api/add-bot', data).then(() => {
 			this.getData();
 		}).catch(error => {
-			this.setState(Object.assign(this.state, {error: error}));
+			this.props.onError(error);
 		});
 	}
 
 	renderForm() {
-		return <div>
-			<h2> Add bot </h2>
-			<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>
-				<div className="form-group">
-					<label htmlFor="exampleInputEmail1">
-						Name
-					</label>
-					<input type="text" className="form-control" ref="name"/>
-				</div>
-				<div className="form-group">
-					<label htmlFor="exampleInputPassword1">
-						Token
-					</label>
-					<input type="text" className="form-control" ref="token"/>
-				</div>
-				<button type="submit" className="btn btn-default">
-					Submit
-				</button>
-			</form>
-		</div>;
-	}
-
-	private renderAlert() {
-		return (this.state.alert != '') ? <Alert message={this.state.alert}/> : null;
-	}
-
-	private renderError() {
-		return (this.state.error != '') ? <Error message={this.state.error}/> : null;
+		return (
+			<div>
+				<h2> Add </h2>
+				<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>
+					<div className="form-group">
+						<label htmlFor="exampleInputEmail1">
+							Name
+						</label>
+						<input type="text" className="form-control" ref="name"/>
+					</div>
+					<div className="form-group">
+						<label htmlFor="exampleInputPassword1">
+							Token
+						</label>
+						<input type="text" className="form-control" ref="token"/>
+					</div>
+					<button type="submit" className="btn btn-default">
+						Submit
+					</button>
+				</form>
+			</div>
+		);
 	}
 }

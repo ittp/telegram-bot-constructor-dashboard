@@ -5,15 +5,18 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { BrowserRouter } from 'react-router-dom';
-import * as RoutesModule from './Routes';
+import * as LayoutModule from './Components/Layout';
+import { ReactNode } from "react";
 
-let routes = RoutesModule.Routes;
+let Layout = LayoutModule.Layout;
 
 function renderApp() {
 	const baseUrl = document.getElementsByTagName('base')[ 0 ].getAttribute('href')!;
 	ReactDOM.render(
 		<AppContainer>
-			<BrowserRouter children={routes} basename={baseUrl}/>
+			<BrowserRouter basename={baseUrl}>
+				<Layout/>
+			</BrowserRouter>
 		</AppContainer>,
 		document.getElementById('react-app')
 	);
@@ -22,8 +25,8 @@ function renderApp() {
 renderApp();
 
 if (module.hot) {
-	module.hot.accept('./Routes', () => {
-		routes = require<typeof RoutesModule>('./Routes').Routes;
+	module.hot.accept('./Components/Layout', () => {
+		Layout = require<any>('./Components/Layout').Layout;
 		renderApp();
 	});
 }

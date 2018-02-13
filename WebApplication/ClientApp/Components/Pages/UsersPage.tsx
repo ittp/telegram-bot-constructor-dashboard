@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import { ILayoutCallbacks } from "../Layout";
 
-export class UsersPage extends React.Component<RouteComponentProps<{}>, {}> {
+export class UsersPage extends React.Component<ILayoutCallbacks, {}> {
 	constructor() {
 		super();
 	}
