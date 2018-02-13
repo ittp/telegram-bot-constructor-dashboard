@@ -20,7 +20,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IBotsFormState> 
 		if (!this.state.loading) {
 			this.setState({loading: true});
 
-			ApiClient.get('/api/bots').then((bots: IBot[]) => {
+			ApiClient.getAsync('/api/bots').then((bots: IBot[]) => {
 				this.setState({bots: bots, loading: false});
 			}).catch(error => {
 				this.props.onError(error);
@@ -80,7 +80,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IBotsFormState> 
 		let data = new FormData();
 		data.append('id', id);
 
-		ApiClient.post('/api/remove-bot', data).then(() => {
+		ApiClient.postAsync('/api/remove-bot', data).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -101,7 +101,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IBotsFormState> 
 		data.append('name', nameRef.value);
 		data.append('token', tokenRef.value);
 
-		ApiClient.post('/api/add-bot', data).then(() => {
+		ApiClient.postAsync('/api/add-bot', data).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
