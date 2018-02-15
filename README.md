@@ -1,42 +1,42 @@
 ## BotConstructor Dashboard
 
-### Использованые ресурсы
+### Технологии
 
-Шаблон ASP Core MVC
+Single Page Application React + ASP NET Core
+Нужны установленные Node.js и DotNet.Core SDK
 
-[MongoCsharpDriver](https://github.com/mongodb/mongo-csharp-driver) (клиент Mongo)
+### Backend
 
-[Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) (заглушка Mongo для тестов)
+Все данные для приложения дергаются HTTP запросами из API по адресу http://bot-constructor-api.azurewebsites.net
 
-### Информация
+Проект с API лежит тут https://github.com/s-buhar0v/telegram-bot-constructor-web-api
 
-Токен от Mongo задается в **appsettings.config**
+Адрес API можно сменить в **appsettings.json** в корне этого проекта. 
 
-Маппинг монговских моделей в классы:
+Обратите внимание, когда в API есть изменения, то увеличивается версия.
 
-```csharp
-// Игнорировать поля монговского документа, не указанные в классе (например поле __v и прочий мусор)
-[BsonIgnoreExtraElements]
- public class Person
-{
-    // Название поля
-    [BsonElement("_id")]
-    public ObjectId Id { get; set; }
-    [BsonElement("name")]
-    public string Name { get; set; }
-}
+Узнать текущую версию API можно зайдя по его адресу в браузере.
 
-// Типизированная коллекция
-var collection = database.GetCollection<Person>("persons");
+Если версия, трубемая сайтом (задается в **appsettings.json**), меньше
+чем версия API, сайт будет бросать исключение.
 
-// Можно передавать прямо классы
-collection.InsertOne(new Person { Name = "Jack" });
+В проекте есть DataController, который можно дернуть с Frontendа.
 
-// Обычные лямбды
-var person = collection.Find(x => x.Name == "Jack").toList();
-```
+DataController идет в отдельно живущий проект API по адресу из конфига, прикладывая параметы,
+отправленные с фронта и возвращает на страницу ответ.
 
-### Тесты
+### Frontend
 
-* Интеграционный тест для проверки доступа в Mongo
-* Модульные тесты для контроллеров с заглушкой Mongo
+ReactRouter перенаправляет на компоненты страниц, которые задаются в Layout.tsx.
+
+Рассмотрим пример:
+
+В меню вы нажали на кнопку, которая ведет на /users.
+
+React роутер рендерит компонент Layout и просовывает в него UsersPage
+
+Layout прокидывает в UsersPage коллбеки для различных событий, вроде OnAlert и прочих,
+которые нужно чтобы влиять на Layout со страницы.
+
+Компонент общается с DataContoller, чтобы получать и отправлять данные в API.
+

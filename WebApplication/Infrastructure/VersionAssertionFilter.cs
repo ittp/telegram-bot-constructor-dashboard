@@ -20,6 +20,7 @@ namespace WebApplication.Infrastructure
 			var apiVersionSiteIsConnectedTo = await GetApiVersion();
 			var apiVersionSiteWorksRequires = new Version(_configuration["ApiVersion"]);
 
+			// Проверяем что версия указанная в appsettings сайта меньше или равна реальной версии api, в которую он ходит
 			var isSiteCompatibleWithApi = apiVersionSiteWorksRequires.CompatibleWith(apiVersionSiteIsConnectedTo);
 
 			if (!isSiteCompatibleWithApi)
