@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,36 +19,29 @@ namespace WebApplication.Controllers
 			_client = new HttpClient();
 		}
 
-		[Route("api/bots")]
+		[Route("api/{any}")]
 		[HttpGet]
-		public async Task<string> GetBots()
+		public async Task<string> GetQueryToApi()
 		{
-			return await _client.GetStringAsync(_apiUrl + "/api/bots");
+			var pathValue = HttpContext.Request.Path.Value;
+			var queryStringValue = HttpContext.Request.QueryString.Value;
+
+			return await _client.GetStringAsync(_apiUrl + pathValue + queryStringValue);
 		}
 
-		[Route("api/add-bot")]
+		[Route("api/{any}")]
 		[HttpPost]
-		public async Task<string> AddBot(string name, string token)
+		public async Task<string> PostQueryToApi()
 		{
-			var response = await _client.PostAsync(_apiUrl + "/api/add-bot", new FormUrlEncodedContent(new[]
-			{
-				new KeyValuePair<string, string>("name", name),
-				new KeyValuePair<string, string>("token", token)
-			}));
+			var pathValue = HttpContext.Request.Path.Value;
+			var form = HttpContext.Request.Form.ToList();
 
-			return await response.Content.ReadAsStringAsync();
-		}
+			var keyValuePairs = form.Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
 
-		[Route("api/remove-bot")]
-		[HttpPost]
-		public async Task<string> AddBot(string id)
-		{
-			var response = await _client.PostAsync(_apiUrl + "/api/remove-bot", new FormUrlEncodedContent(new[]
-			{
-				new KeyValuePair<string, string>("id", id)
-			}));
+			var encodedContent = new FormUrlEncodedContent(keyValuePairs);
+			var apiHttpResponseMessage = await _client.PostAsync(_apiUrl + pathValue, encodedContent);
 
-			return await response.Content.ReadAsStringAsync();
+			return await apiHttpResponseMessage.Content.ReadAsStringAsync();
 		}
 	}
 }
