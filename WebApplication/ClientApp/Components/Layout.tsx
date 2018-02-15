@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { HomePage } from "./Pages/HomePage";
+import { HomePage } from './Pages/HomePage';
 import { UsersPage } from './Pages/UsersPage';
-import { IAlert } from "../Models/IAlert";
+import { IAlert } from '../Models/IAlert';
 
 export interface ILayoutState {
 	alert?: IAlert;

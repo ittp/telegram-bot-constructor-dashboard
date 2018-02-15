@@ -6,7 +6,6 @@ import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { BrowserRouter } from 'react-router-dom';
 import * as LayoutModule from './Components/Layout';
-import { ReactNode } from "react";
 
 let Layout = LayoutModule.Layout;
 

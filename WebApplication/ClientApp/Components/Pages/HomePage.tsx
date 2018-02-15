@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { ApiClient } from "../../Models/ApiClient";
-import { FormEvent } from "react";
-import { IBot } from "../../Models/IBot";
-import { Preloader } from "../Domain/Preloader";
-import { ILayoutCallbacks } from "../Layout";
+import { ApiClient } from '../../Models/ApiClient';
+import { FormEvent } from 'react';
+import { IBot } from '../../Models/IBot';
+import { Preloader } from '../Domain/Preloader';
+import { ILayoutCallbacks } from '../Layout';
 
 interface IHomePageState {
 	bots: IBot[];

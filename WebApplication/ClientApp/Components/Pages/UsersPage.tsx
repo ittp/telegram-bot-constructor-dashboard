@@ -1,6 +1,6 @@
 import * as React from 'react';
 import 'isomorphic-fetch';
-import { ILayoutCallbacks } from "../Layout";
+import { ILayoutCallbacks } from '../Layout';
 
 export class UsersPage extends React.Component<ILayoutCallbacks, {}> {
 	constructor() {
