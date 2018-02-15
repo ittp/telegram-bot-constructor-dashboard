@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Joonasw.AspNetCore.SecurityHeaders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SQLitePCL;
+using WebApplication.Infrastructure;
 
 namespace WebApplication
 {
@@ -22,9 +26,9 @@ namespace WebApplication
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddSingleton<IConfiguration>(Configuration);
+			services.AddSingleton(Configuration);
 
-			services.AddMvc();
+			services.AddMvc(options => { options.Filters.Add(typeof(VersionAssertionFilter)); });
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
