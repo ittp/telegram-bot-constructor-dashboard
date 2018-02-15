@@ -2,14 +2,13 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
 
 namespace WebApplication.Infrastructure
 {
 	public class VersionAssertionFilter : IAsyncActionFilter
 	{
-		private IConfiguration _configuration;
+		private readonly IConfiguration _configuration;
 
 		public VersionAssertionFilter(IConfiguration configuration)
 		{
@@ -34,14 +33,14 @@ namespace WebApplication.Infrastructure
 
 		private async Task<Version> GetApiVersion()
 		{
-			var stringApiVersion = "";
+			string stringApiVersion;
 
 			try
 			{
 				var client = new HttpClient();
 				stringApiVersion = await client.GetStringAsync(_configuration["ApiUrl"]);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				throw new Exception("Faled to assert that site is compatible with apis it depends on ");
 			}
