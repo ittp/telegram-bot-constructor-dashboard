@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 export class Menu extends React.Component<{}, {}> {
 	public render() {
-		return <div className='main-nav'>
+		return <div className='main-nav animated fadeInLeft'>
 			<div className='navbar navbar-inverse'>
 				<div className='navbar-header'>
 					<button type='button' className='navbar-toggle' data-toggle='collapse'
