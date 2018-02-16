@@ -20,22 +20,29 @@ export interface ILayoutCallbacks {
 export class Layout extends React.Component<{}, ILayoutState> {
 	constructor() {
 		super();
-		this.state = {};
+		this.state = {}
 	}
 
 	onAlert(message: string) {
-		this.setState(prevState => ({alert: {message: message, isError: false}}));
+		this.setState({alert: {message: message, isError: false}});
 	}
 
 	onError(message: string) {
-		this.setState(prevState => ({alert: {message: message, isError: true}}));
+		this.setState({alert: {message: message, isError: true}});
+	}
+
+	onClose() {
+		this.setState({alert: undefined});
 	}
 
 	renderAlertBlock() {
 		return this.state.alert ? (
 			<div>
-				<div className={"animated pulse alert" + this.state.alert.isError ? "alert-danger" : "warning"}>
-					<h4>{this.state.alert.message}</h4>
+				<div className={`alert-block alert ${this.state.alert.isError ? "alert-danger" : "alert-warning"} animated bounceIn`}>
+					{this.state.alert.message}
+					<button onClick={() => this.onClose()} type="button" className="close" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 			</div>
 		) : null;
@@ -57,10 +64,10 @@ export class Layout extends React.Component<{}, ILayoutState> {
 													onAlert={(m) => this.onAlert(m)}/>}/>
 					<Route path='/text-message-answers'
 						   render={() => <MessagesPage onError={(m) => this.onError(m)}
-																 onAlert={(m) => this.onAlert(m)}/>}/>
+													   onAlert={(m) => this.onAlert(m)}/>}/>
 					<Route path='/inline-keys'
 						   render={() => <InlineKeysPage onError={(m) => this.onError(m)}
-																 onAlert={(m) => this.onAlert(m)}/>}/>
+														 onAlert={(m) => this.onAlert(m)}/>}/>
 					<Route path='/interviews'
 						   render={() => <InterviewsPage onError={(m) => this.onError(m)}
 														 onAlert={(m) => this.onAlert(m)}/>}/>
