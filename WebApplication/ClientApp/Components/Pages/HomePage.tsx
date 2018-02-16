@@ -19,7 +19,6 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 	getData() {
 		if (!this.state.loading) {
 			this.setState({loading: true});
-
 			ApiClient.getAsync('/api/bots').then((bots: IBot[]) => {
 				this.setState({bots: bots, loading: false});
 			}).catch(error => {
@@ -38,6 +37,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 			return (
 				<div>
 					{title}
+					<hr/>
 					<Preloader/>
 				</div>
 			)
@@ -45,13 +45,14 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 		return (
 			<div>
 				{title}
-				{this.renderBots()}
+				<hr/>
+				{this.renderContent()}
 				{this.renderForm()}
 			</div>
 		);
 	}
 
-	renderBots() {
+	renderContent() {
 		return <table className='table'>
 			<thead>
 			<tr>
@@ -66,7 +67,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 					<td>{bot.name}</td>
 					<td>{bot.token}</td>
 					<td>
-						<button onClick={(e) => this.handleRemoveBot(bot.id)} className="btn btn-default">
+						<button onClick={(e) => this.handleRemoveButton(bot.id)} className="btn btn-default">
 							Remove
 						</button>
 					</td>
@@ -76,11 +77,8 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 		</table>;
 	}
 
-	handleRemoveBot(id: string) {
-		let data = new FormData();
-		data.append('id', id);
-
-		ApiClient.postAsync('/api/remove-bot', data).then(() => {
+	handleRemoveButton(id: string) {
+		ApiClient.postAsync('/api/remove-bot', {id: id}).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -97,11 +95,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 			this.props.onAlert('Validation error');
 		}
 
-		let data = new FormData();
-		data.append('name', nameRef.value);
-		data.append('token', tokenRef.value);
-
-		ApiClient.postAsync('/api/add-bot', data).then(() => {
+		ApiClient.postAsync('/api/add-bot', {name: nameRef.value, token: tokenRef.value}).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -111,7 +105,8 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 	renderForm() {
 		return (
 			<div>
-				<h2> Add </h2>
+				<h3> Add </h3>
+
 				<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>
 					<div className="form-group">
 						<label htmlFor="exampleInputEmail1">
