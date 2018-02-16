@@ -38,7 +38,7 @@ export class Layout extends React.Component<{}, ILayoutState> {
 	renderAlertBlock() {
 		return this.state.alert ? (
 			<div>
-				<div className={`alert-block alert ${this.state.alert.isError ? "alert-danger" : "alert-warning"} animated bounceIn`}>
+				<div className={`alert-block alert ${this.state.alert.isError ? "alert-danger" : "alert-warning"} animated fadeInDown`}>
 					{this.state.alert.message}
 					<button onClick={() => this.onClose()} type="button" className="close" aria-label="Close">
 						<span aria-hidden="true">&times;</span>

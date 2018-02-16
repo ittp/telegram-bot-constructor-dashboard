@@ -70,7 +70,7 @@ export class UsersPage extends React.Component<ILayoutCallbacks, IUsersPageState
 
 	renderContent() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Content </h3>
 				<table className='table'>
 					<thead>

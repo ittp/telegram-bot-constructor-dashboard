@@ -80,7 +80,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 
 	renderContent() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Content </h3>
 				<table className='table'>
 					<thead>
@@ -153,7 +153,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 
 	renderForm() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Add </h3>
 				<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>
 					<div className="form-group">
@@ -197,7 +197,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 
 	renderAnswers() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Answers </h3>
 				<table className='table'>
 					<thead>

@@ -73,7 +73,7 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 
 	renderContent() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Content </h3>
 				<table className='table'>
 					<thead>
@@ -134,7 +134,7 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 
 	renderForm() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Add </h3>
 				<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>
 					<div className="form-group">

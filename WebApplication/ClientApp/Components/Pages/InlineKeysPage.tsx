@@ -71,7 +71,7 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 
 	renderContent() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Content </h3>
 				<table className='table'>
 					<thead>
@@ -132,7 +132,7 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 
 	renderForm() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Add </h3>
 				<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>
 					<div className="form-group">

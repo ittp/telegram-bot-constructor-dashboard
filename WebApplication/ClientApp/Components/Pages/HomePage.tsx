@@ -53,7 +53,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 	}
 
 	renderContent() {
-		return <table className='table animated fadeIn'>
+		return <table className='table '>
 			<thead>
 			<tr>
 				<th>Name</th>
@@ -104,7 +104,7 @@ export class HomePage extends React.Component<ILayoutCallbacks, IHomePageState> 
 
 	renderForm() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Add </h3>
 
 				<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>

@@ -19,7 +19,7 @@ export class BotSelector extends React.Component<IBotSelectorProps, {}> {
 
 	render() {
 		return (
-			<div className="animated fadeIn">
+			<div className="">
 				<h3> Current bot </h3>
 				<form action="">
 					<select ref="selectedBot" value={this.props.currentBotId} className="form-control" onChange={() => this.handleSelect()} name="botId">
