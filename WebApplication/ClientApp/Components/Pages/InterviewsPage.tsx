@@ -126,18 +126,20 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	handleSubmitForm(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		let captionRef = this.refs.caption as HTMLInputElement;
-		let answerRef = this.refs.answer as HTMLInputElement;
+		let nameRef = this.refs.name as HTMLInputElement;
+		let questionRef = this.refs.question as HTMLInputElement;
+		let answer1Ref = this.refs.answer1 as HTMLInputElement;
 		let botId = this.state.currentBotId;
 
-		if (captionRef.value == '' || answerRef.value == '') {
+		if (questionRef.value == '' || answer1Ref.value == '' || nameRef.value == '') {
 			this.props.onAlert('Validation error');
 		}
 
 		ApiClient.postAsync('/api/add-interview', {
 			botId: botId,
-			caption: captionRef.value,
-			answer: answerRef.value
+			question: questionRef.value,
+			name: nameRef.value,
+			answer: answer1Ref.value
 		}).then(() => {
 			this.getData();
 		}).catch(error => {
@@ -146,7 +148,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	}
 
 	handleAddKey() {
-
+		this.props.onAlert('Not available in this version');
 	}
 
 	renderForm() {
@@ -168,7 +170,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 					</div>
 					<div className="form-group">
 						<label htmlFor="exampleInputPassword1">
-							Answer(1)
+							Answer
 						</label>
 						<input type="text" className="form-control" ref="answer1"/>
 					</div>
