@@ -49,12 +49,12 @@ export class Layout extends React.Component<{}, ILayoutState> {
 	}
 
 	render() {
-		return <div className='container-fluid'>
+		return <div className='container-fluid overlay'>
 			<div className='row'>
 				<div className='col-sm-3'>
 					<Menu/>
 				</div>
-				<div className='col-sm-9'>
+				<div className='col-sm-9 page-content overflow-visible'>
 					{this.renderAlertBlock()}
 					<Route exact path='/'
 						   render={() => <HomePage onError={(m) => this.onError(m)}
