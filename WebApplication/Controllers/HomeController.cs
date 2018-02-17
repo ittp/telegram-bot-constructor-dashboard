@@ -10,9 +10,16 @@ namespace WebApplication.Controllers
 			return View();
 		}
 
+		[Route("/error")]
 		public IActionResult Error()
 		{
 			ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+			return View();
+		}
+
+		[Route("/signin")]
+		public IActionResult Signin()
+		{
 			return View();
 		}
 	}

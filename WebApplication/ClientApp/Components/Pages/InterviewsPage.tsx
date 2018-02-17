@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ApiClient } from '../../Models/ApiClient';
-import { FormEvent } from 'react';
 import { IBot } from '../../Models/IBot';
 import { Preloader } from '../Domain/Preloader';
 import { ILayoutCallbacks } from '../Layout';
@@ -16,12 +15,24 @@ interface IInterviewsPageState {
 	interviews: IInterview[];
 	interviewAnswers: IInterviewAnswer[];
 	loading: boolean;
+	answersCount: number;
 }
 
 export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterviewsPageState> {
+	answersRefs: any[];
+
 	constructor() {
 		super();
-		this.state = {currentBotId: '', bots: [], interviews: [], interviewAnswers: [], users: [], loading: false};
+		this.answersRefs = [];
+		this.state = {
+			currentBotId: '',
+			bots: [],
+			interviews: [],
+			interviewAnswers: [],
+			users: [],
+			loading: false,
+			answersCount: 1
+		};
 	}
 
 	getData() {
@@ -102,7 +113,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 								)}</ul>
 							</td>
 							<td>
-								<button onClick={(e) => this.handleRemoveKey(interview.id)}
+								<button onClick={() => this.handleRemoveKey(interview.id)}
 										className="btn btn-default">
 									Remove
 								</button>
@@ -123,15 +134,13 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		});
 	}
 
-	handleSubmitForm(event: FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-
+	handleSubmitForm() {
 		let nameRef = this.refs.name as HTMLInputElement;
 		let questionRef = this.refs.question as HTMLInputElement;
-		let answer1Ref = this.refs.answer1 as HTMLInputElement;
 		let botId = this.state.currentBotId;
+		let answersRefs = this.answersRefs as HTMLInputElement[];
 
-		if (questionRef.value == '' || answer1Ref.value == '' || nameRef.value == '') {
+		if (questionRef.value == '' || answersRefs.map(x => x.value).join("") == '' || nameRef.value == '') {
 			this.props.onAlert('Validation error');
 		}
 
@@ -139,7 +148,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 			botId: botId,
 			question: questionRef.value,
 			name: nameRef.value,
-			answer: answer1Ref.value
+			answer: JSON.stringify(answersRefs.map(x => x.value))
 		}).then(() => {
 			this.getData();
 		}).catch(error => {
@@ -147,15 +156,36 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		});
 	}
 
-	handleAddKey() {
-		this.props.onAlert('Not available in this version');
+	handleAddAnswerKey() {
+		this.setState({answersCount: this.state.answersCount + 1});
+	}
+
+	handleRemoveAnswerKey() {
+		this.setState({answersCount: this.state.answersCount > 1 ? this.state.answersCount - 1 : 1});
+	}
+
+	renderAnswerInputs() {
+		let answerInputs = [];
+		for (let i = 1; i <= this.state.answersCount; i++) {
+			answerInputs.push(
+				<div className="form-group">
+					<label htmlFor="exampleInputPassword1">
+						Answer({i})
+					</label>
+					<input type="text" className="form-control" ref={(input) => {
+						this.answersRefs.push(input)
+					}}/>
+				</div>
+			);
+		}
+		return answerInputs;
 	}
 
 	renderForm() {
 		return (
 			<div className="">
 				<h3> Add </h3>
-				<form role="form" onSubmit={(e) => this.handleSubmitForm(e)}>
+				<form role="form">
 					<div className="form-group">
 						<label htmlFor="exampleInputEmail1">
 							Name
@@ -168,21 +198,22 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 						</label>
 						<input type="text" className="form-control" ref="question"/>
 					</div>
+					{this.renderAnswerInputs()}
 					<div className="form-group">
-						<label htmlFor="exampleInputPassword1">
-							Answer
-						</label>
-						<input type="text" className="form-control" ref="answer1"/>
-					</div>
-					<div className="form-group">
-						<button onClick={() => this.handleAddKey()}
-								className="btn btn-default">
+						<button type="button" className="btn btn-default answer-button"
+								onClick={() => this.handleAddAnswerKey()}
+						>
 							Add answer
 						</button>
+						<button type="button" className="btn btn-default answer-button"
+								onClick={() => this.handleRemoveAnswerKey()}>
+							Remove answer
+						</button>
+						<button type="button" className="btn btn-default answer-button"
+								onClick={() => this.handleSubmitForm()}>
+							Submit
+						</button>
 					</div>
-					<button type="submit" className="btn btn-default">
-						Submit
-					</button>
 				</form>
 			</div>
 		);
