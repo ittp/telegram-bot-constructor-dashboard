@@ -139,7 +139,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		let botId = this.state.currentBotId;
 		let answersRefs = this.answersRefs.filter(x => x != null) as HTMLInputElement[];
 
-		if (questionRef.value == '' || answersRefs.map(x => x.value).join("") == '' || nameRef.value == '') {
+		if (questionRef.value == '' || answersRefs.filter(x => x.value == '') || nameRef.value == '') {
 			this.props.onAlert('Validation error');
 		}
 
