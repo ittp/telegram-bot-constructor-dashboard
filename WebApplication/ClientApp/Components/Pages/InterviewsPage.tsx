@@ -23,7 +23,6 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 
 	constructor() {
 		super();
-		this.answersRefs = [];
 		this.state = {
 			currentBotId: '',
 			bots: [],
@@ -138,7 +137,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		let nameRef = this.refs.name as HTMLInputElement;
 		let questionRef = this.refs.question as HTMLInputElement;
 		let botId = this.state.currentBotId;
-		let answersRefs = this.answersRefs as HTMLInputElement[];
+		let answersRefs = this.answersRefs.filter(x => x != null) as HTMLInputElement[];
 
 		if (questionRef.value == '' || answersRefs.map(x => x.value).join("") == '' || nameRef.value == '') {
 			this.props.onAlert('Validation error');
@@ -148,7 +147,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 			botId: botId,
 			question: questionRef.value,
 			name: nameRef.value,
-			answer: JSON.stringify(answersRefs.map(x => x.value))
+			answers: JSON.stringify(answersRefs.map(x => x.value))
 		}).then(() => {
 			this.getData();
 		}).catch(error => {
@@ -165,12 +164,13 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	}
 
 	renderAnswerInputs() {
+		this.answersRefs = [];
 		let answerInputs = [];
-		for (let i = 1; i <= this.state.answersCount; i++) {
+		for (let i = 0; i < this.state.answersCount; i++) {
 			answerInputs.push(
 				<div className="form-group">
 					<label htmlFor="exampleInputPassword1">
-						Answer({i})
+						Answer({i+1})
 					</label>
 					<input type="text" className="form-control" ref={(input) => {
 						this.answersRefs.push(input)
