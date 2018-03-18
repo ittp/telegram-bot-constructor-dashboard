@@ -23,6 +23,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 
 	constructor() {
 		super();
+		this.answersRefs = [];
 		this.state = {
 			currentBotId: '',
 			bots: [],
@@ -36,20 +37,20 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 
 	getData() {
 		if (!this.state.loading) {
-			this.setState({loading: true});
-			ApiClient.getAsync('/api/bots').then((bots: IBot[]) => {
+			this.setState({ loading: true });
+			ApiClient.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
-					this.setState({currentBotId: bots[ 0 ].id});
+					this.setState({ currentBotId: bots[0].id });
 				}
-				ApiClient.getAsync('/api/interviews', {botId: this.state.currentBotId}).then((interviews: IInterview    []) => {
-					ApiClient.getAsync('/api/interview-answers', {botId: this.state.currentBotId}).then((interviewAnswers: IInterviewAnswer[]) => {
-						ApiClient.getAsync('/api/users', {botId: this.state.currentBotId}).then((users: IUser[]) => {
+				ApiClient.getInterviews(this.state.currentBotId).then((interviews: IInterview[]) => {
+					ApiClient.getInterviewAnswers(this.state.currentBotId).then((interviewAnswers: IInterviewAnswer[]) => {
+						ApiClient.getUsers(this.state.currentBotId).then((users: IUser[]) => {
 							this.setState({
 								loading: false,
-								bots: bots,
-								interviews: interviews,
-								interviewAnswers: interviewAnswers,
-								users: users
+								bots,
+								interviews,
+								interviewAnswers,
+								users
 							});
 						}).catch(error => this.props.onError(error));
 					}).catch(error => this.props.onError(error));
@@ -63,7 +64,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	}
 
 	selectBot(id: string) {
-		this.setState({currentBotId: id});
+		this.setState({ currentBotId: id });
 		this.getData();
 	}
 
@@ -71,8 +72,8 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		return (
 			<div>
 				<h2> Interviews </h2>
-				<hr/>
-				{this.state.loading ? <Preloader/> : (
+				<hr />
+				{this.state.loading ? <Preloader /> : (
 					<div>
 						<BotSelector
 							currentBotId={this.state.currentBotId}
@@ -94,31 +95,31 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 				<h3> Content </h3>
 				<table className='table'>
 					<thead>
-					<tr>
-						<th>Name</th>
-						<th>Question</th>
-						<th>Answers</th>
-						<th/>
-					</tr>
+						<tr>
+							<th>Name</th>
+							<th>Question</th>
+							<th>Answers</th>
+							<th />
+						</tr>
 					</thead>
 					<tbody>
-					{this.state.interviews.map(interview =>
-						<tr key={interview.id}>
-							<td>{interview.name}</td>
-							<td>{interview.question}</td>
-							<td>
-								<ul>{interview.answers.map(answer =>
-									<li>{answer}</li>
-								)}</ul>
-							</td>
-							<td>
-								<button onClick={() => this.handleRemoveKey(interview.id)}
+						{this.state.interviews.map(interview =>
+							<tr key={interview.id}>
+								<td>{interview.name}</td>
+								<td>{interview.question}</td>
+								<td>
+									<ul>{interview.answers.map(answer =>
+										<li>{answer}</li>
+									)}</ul>
+								</td>
+								<td>
+									<button onClick={() => this.handleRemoveKey(interview.id)}
 										className="btn btn-default">
-									Remove
+										Remove
 								</button>
-							</td>
-						</tr>
-					)}
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>
@@ -126,7 +127,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	}
 
 	handleRemoveKey(id: string) {
-		ApiClient.postAsync('/api/remove-interview', {id: id}).then(() => {
+		ApiClient.removeInterview(id).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -138,17 +139,13 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		let questionRef = this.refs.question as HTMLInputElement;
 		let botId = this.state.currentBotId;
 		let answersRefs = this.answersRefs.filter(x => x != null) as HTMLInputElement[];
+		let answers = answersRefs.map(x => x.value);
 
-		if (questionRef.value == '' || answersRefs.filter(x => x.value == '') || nameRef.value == '') {
+		if (questionRef.value == '' || answers.filter(x => x == '').length > 0 || nameRef.value == '') {
 			this.props.onAlert('Validation error');
 		}
 
-		ApiClient.postAsync('/api/add-interview', {
-			botId: botId,
-			question: questionRef.value,
-			name: nameRef.value,
-			answers: JSON.stringify(answersRefs.map(x => x.value))
-		}).then(() => {
+		ApiClient.addInterview(botId, questionRef.value, nameRef.value, JSON.stringify(answersRefs.map(x => x.value))).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -156,11 +153,11 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	}
 
 	handleAddAnswerKey() {
-		this.setState({answersCount: this.state.answersCount + 1});
+		this.setState({ answersCount: this.state.answersCount + 1 });
 	}
 
 	handleRemoveAnswerKey() {
-		this.setState({answersCount: this.state.answersCount > 1 ? this.state.answersCount - 1 : 1});
+		this.setState({ answersCount: this.state.answersCount > 1 ? this.state.answersCount - 1 : 1 });
 	}
 
 	renderAnswerInputs() {
@@ -170,11 +167,11 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 			answerInputs.push(
 				<div className="form-group">
 					<label htmlFor="exampleInputPassword1">
-						Answer({i+1})
+						Answer({i + 1})
 					</label>
 					<input type="text" className="form-control" ref={(input) => {
 						this.answersRefs.push(input)
-					}}/>
+					}} />
 				</div>
 			);
 		}
@@ -190,27 +187,27 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 						<label htmlFor="exampleInputEmail1">
 							Name
 						</label>
-						<input type="text" className="form-control" ref="name"/>
+						<input type="text" className="form-control" ref="name" />
 					</div>
 					<div className="form-group">
 						<label htmlFor="exampleInputPassword1">
 							Question
 						</label>
-						<input type="text" className="form-control" ref="question"/>
+						<input type="text" className="form-control" ref="question" />
 					</div>
 					{this.renderAnswerInputs()}
 					<div className="form-group">
 						<button type="button" className="btn btn-default answer-button"
-								onClick={() => this.handleAddAnswerKey()}
+							onClick={() => this.handleAddAnswerKey()}
 						>
 							Add answer
 						</button>
 						<button type="button" className="btn btn-default answer-button"
-								onClick={() => this.handleRemoveAnswerKey()}>
+							onClick={() => this.handleRemoveAnswerKey()}>
 							Remove answer
 						</button>
 						<button type="button" className="btn btn-default answer-button"
-								onClick={() => this.handleSubmitForm()}>
+							onClick={() => this.handleSubmitForm()}>
 							Submit
 						</button>
 					</div>
@@ -223,7 +220,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		let user = this.state.users.find(x => x.telegramId === answer.userId) as IUser;
 		let interview = this.state.interviews.find(x => x.id === answer.interviewId) as IInterview;
 
-		return {user: user, answer: answer, interview: interview};
+		return { user: user, answer: answer, interview: interview };
 	}
 
 	renderAnswers() {
@@ -232,28 +229,28 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 				<h3> Answers </h3>
 				<table className='table'>
 					<thead>
-					<tr>
-						<th>First name</th>
-						<th>Last name</th>
-						<th>Telegram Id</th>
-						<th>Question</th>
-						<th>Answer</th>
-						<th/>
-					</tr>
+						<tr>
+							<th>First name</th>
+							<th>Last name</th>
+							<th>Telegram Id</th>
+							<th>Question</th>
+							<th>Answer</th>
+							<th />
+						</tr>
 					</thead>
 					<tbody>
-					{this.state.interviewAnswers.map(answer => {
-						let answerView = this.getAnswerView(answer);
-						return (
-							<tr key={answer.id}>
-								<td>{answerView.user.firstName}</td>
-								<td>{answerView.user.lastName}</td>
-								<td>{answerView.user.telegramId}</td>
-								<td>{answerView.interview.question}</td>
-								<td>{answerView.answer.answer}</td>
-							</tr>
-						);
-					})}
+						{this.state.interviewAnswers.map(answer => {
+							let answerView = this.getAnswerView(answer);
+							return (
+								<tr key={answer.id}>
+									<td>{answerView.user.firstName}</td>
+									<td>{answerView.user.lastName}</td>
+									<td>{answerView.user.telegramId}</td>
+									<td>{answerView.interview.question}</td>
+									<td>{answerView.answer.answer}</td>
+								</tr>
+							);
+						})}
 					</tbody>
 				</table>
 			</div>

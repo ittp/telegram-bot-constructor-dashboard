@@ -17,17 +17,17 @@ interface IInlineKeysPageState {
 export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKeysPageState> {
 	constructor() {
 		super();
-		this.state = {currentBotId: '', bots: [], inlineKeys: [], loading: false};
+		this.state = { currentBotId: '', bots: [], inlineKeys: [], loading: false };
 	}
 
 	getData() {
 		if (!this.state.loading) {
-			this.setState({loading: true});
-			ApiClient.getAsync('/api/bots').then((bots: IBot[]) => {
+			this.setState({ loading: true });
+			ApiClient.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
-					this.setState({currentBotId: bots[ 0 ].id});
+					this.setState({ currentBotId: bots[0].id });
 				}
-				ApiClient.getAsync('/api/inline-keys', {botId: this.state.currentBotId}).then((inlineKeys: IInlineKey    []) => {
+				ApiClient.getInlineKeys(this.state.currentBotId).then((inlineKeys: IInlineKey[]) => {
 					this.setState({
 						loading: false, bots: bots, inlineKeys: inlineKeys
 					});
@@ -45,7 +45,7 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 	}
 
 	selectBot(id: string) {
-		this.setState({currentBotId: id});
+		this.setState({ currentBotId: id });
 		this.getData();
 	}
 
@@ -53,8 +53,8 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 		return (
 			<div>
 				<h2> Inline keys </h2>
-				<hr/>
-				{this.state.loading ? <Preloader/> : (
+				<hr />
+				{this.state.loading ? <Preloader /> : (
 					<div>
 						<BotSelector
 							currentBotId={this.state.currentBotId}
@@ -75,25 +75,25 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 				<h3> Content </h3>
 				<table className='table'>
 					<thead>
-					<tr>
-						<th>Message</th>
-						<th>Answer</th>
-						<th/>
-					</tr>
+						<tr>
+							<th>Message</th>
+							<th>Answer</th>
+							<th />
+						</tr>
 					</thead>
 					<tbody>
-					{this.state.inlineKeys.map(inlineKey =>
-						<tr key={inlineKey.id}>
-							<td>{inlineKey.caption}</td>
-							<td>{inlineKey.answer}</td>
-							<td>
-								<button onClick={(e) => this.handleRemoveKey(inlineKey.id)}
+						{this.state.inlineKeys.map(inlineKey =>
+							<tr key={inlineKey.id}>
+								<td>{inlineKey.caption}</td>
+								<td>{inlineKey.answer}</td>
+								<td>
+									<button onClick={(e) => this.handleRemoveKey(inlineKey.id)}
 										className="btn btn-default">
-									Remove
+										Remove
 								</button>
-							</td>
-						</tr>
-					)}
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>
@@ -101,7 +101,7 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 	}
 
 	handleRemoveKey(id: string) {
-		ApiClient.postAsync('/api/remove-inline-key', {id: id}).then(() => {
+		ApiClient.removeInlineKey(id).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -119,11 +119,8 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 			this.props.onAlert('Validation error');
 		}
 
-		ApiClient.postAsync('/api/add-inline-key', {
-			botId: botId,
-			caption: captionRef.value,
-			answer: answerRef.value
-		}).then(() => {
+		ApiClient.addInlineKey(botId,captionRef.value,answerRef.value
+		).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -139,13 +136,13 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 						<label htmlFor="exampleInputEmail1">
 							Caption
 						</label>
-						<input type="text" className="form-control" ref="caption"/>
+						<input type="text" className="form-control" ref="caption" />
 					</div>
 					<div className="form-group">
 						<label htmlFor="exampleInputPassword1">
 							Answer
 						</label>
-						<input type="text" className="form-control" ref="answer"/>
+						<input type="text" className="form-control" ref="answer" />
 					</div>
 					<button type="submit" className="btn btn-default">
 						Submit

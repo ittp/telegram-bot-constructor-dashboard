@@ -17,17 +17,17 @@ interface IMessagesPageState {
 export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPageState> {
 	constructor() {
 		super();
-		this.state = {currentBotId: '', bots: [], textMessageAnswers: [], loading: false};
+		this.state = { currentBotId: '', bots: [], textMessageAnswers: [], loading: false };
 	}
 
 	getData() {
 		if (!this.state.loading) {
-			this.setState({loading: true});
-			ApiClient.getAsync('/api/bots').then((bots: IBot[]) => {
+			this.setState({ loading: true });
+			ApiClient.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
-					this.setState({currentBotId: bots[ 0 ].id});
+					this.setState({ currentBotId: bots[0].id });
 				}
-				ApiClient.getAsync('/api/text-message-answers', {botId: this.state.currentBotId}).then((textMessageAnswers: ITextMessageAnswer[]) => {
+				ApiClient.getTextMessageAnswers(this.state.currentBotId).then((textMessageAnswers: ITextMessageAnswer[]) => {
 					this.setState({
 						loading: false,
 						bots: bots,
@@ -47,7 +47,7 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 	}
 
 	selectBot(id: string) {
-		this.setState({currentBotId: id});
+		this.setState({ currentBotId: id });
 		this.getData();
 	}
 
@@ -55,8 +55,8 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 		return (
 			<div>
 				<h2> Messages </h2>
-				<hr/>
-				{this.state.loading ? <Preloader/> : (
+				<hr />
+				{this.state.loading ? <Preloader /> : (
 					<div>
 						<BotSelector
 							currentBotId={this.state.currentBotId}
@@ -77,25 +77,25 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 				<h3> Content </h3>
 				<table className='table'>
 					<thead>
-					<tr>
-						<th>Message</th>
-						<th>Answer</th>
-						<th/>
-					</tr>
+						<tr>
+							<th>Message</th>
+							<th>Answer</th>
+							<th />
+						</tr>
 					</thead>
 					<tbody>
-					{this.state.textMessageAnswers.map(textMessageAnswer =>
-						<tr key={textMessageAnswer.id}>
-							<td>{textMessageAnswer.message}</td>
-							<td>{textMessageAnswer.answer}</td>
-							<td>
-								<button onClick={(e) => this.handleRemoveButton(textMessageAnswer.id)}
+						{this.state.textMessageAnswers.map(textMessageAnswer =>
+							<tr key={textMessageAnswer.id}>
+								<td>{textMessageAnswer.message}</td>
+								<td>{textMessageAnswer.answer}</td>
+								<td>
+									<button onClick={(e) => this.handleRemoveButton(textMessageAnswer.id)}
 										className="btn btn-default">
-									Remove
+										Remove
 								</button>
-							</td>
-						</tr>
-					)}
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>
@@ -103,7 +103,7 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 	}
 
 	handleRemoveButton(id: string) {
-		ApiClient.postAsync('/api/remove-text-message-answer', {id: id}).then(() => {
+		ApiClient.removeTextMessageAnswer(id).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -121,11 +121,11 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 			this.props.onAlert('Validation error');
 		}
 
-		ApiClient.postAsync('/api/add-text-message-answer', {
-			botId: botId,
-			message: messageRef.value,
-			answer: answerRef.value
-		}).then(() => {
+		ApiClient.addTextMessageAnswer(
+			botId,
+			messageRef.value,
+			answerRef.value
+		).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -141,13 +141,13 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 						<label htmlFor="exampleInputEmail1">
 							Messsage
 						</label>
-						<input type="text" className="form-control" ref="message"/>
+						<input type="text" className="form-control" ref="message" />
 					</div>
 					<div className="form-group">
 						<label htmlFor="exampleInputPassword1">
 							Answer
 						</label>
-						<input type="text" className="form-control" ref="answer"/>
+						<input type="text" className="form-control" ref="answer" />
 					</div>
 					<button type="submit" className="btn btn-default">
 						Submit
