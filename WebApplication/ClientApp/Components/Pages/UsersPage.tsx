@@ -90,7 +90,7 @@ export class UsersPage extends React.Component<ILayoutCallbacks, IUsersPageState
 								<td>{user.firstName}</td>
 								<td>{user.lastName}</td>
 								<td>{user.userName}</td>
-								<td>{user.networking.map(x => <p>x</p>)}</td>
+								<td>{user.networking.map(x => <p>{x}</p>)}</td>
 							</tr>
 						)}
 					</tbody>
