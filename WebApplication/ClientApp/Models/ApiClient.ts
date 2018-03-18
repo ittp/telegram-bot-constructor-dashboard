@@ -1,6 +1,7 @@
 ﻿import { IBot } from "./IBot";
 import { IInlineKey } from "./IInlineKey";
 import { IInterview } from "./IInterview";
+import { IUser } from "./IUser";
 
 export class ApiClient {
 	static async getBots(): Promise<any> {
@@ -181,10 +182,28 @@ export class ApiClient {
 		});
 	}
 
+	static mapUser(user: any): IUser {
+		const networkingObj = JSON.parse(user.networking);
+		let networking = [];
+		for (var name in networkingObj) {
+			networking.push(`${name}: ${networkingObj[name]}`);
+		}
+		
+		return {
+			botId: user.botId,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			id: user.id,
+			telegramId: user.telegramId,
+			userName: user.userName,
+			networking: networking
+		}
+	}
+
 	static async getUsers(botId: string): Promise<any> {
 		return new Promise((resolve, reject) => {
 			ApiClient.getAsync('/api/users', { botId }).then((users) => {
-				resolve(users);
+				resolve(users.map(this.mapUser));
 			}).catch(error => {
 				reject(error)
 			});

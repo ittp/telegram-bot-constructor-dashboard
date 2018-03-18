@@ -4,5 +4,6 @@
 	firstName: string;
 	lastName: string;
 	userName: string;
-	botId: string
+	botId: string;
+    networking: string[];
 }

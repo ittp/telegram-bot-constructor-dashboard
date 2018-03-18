@@ -79,6 +79,7 @@ export class UsersPage extends React.Component<ILayoutCallbacks, IUsersPageState
 							<th>First name</th>
 							<th>Last name</th>
 							<th>User name</th>
+							<th>Networking</th>
 							<th />
 						</tr>
 					</thead>
@@ -89,6 +90,7 @@ export class UsersPage extends React.Component<ILayoutCallbacks, IUsersPageState
 								<td>{user.firstName}</td>
 								<td>{user.lastName}</td>
 								<td>{user.userName}</td>
+								<td>{user.networking.map(x => <p>x</p>)}</td>
 							</tr>
 						)}
 					</tbody>
