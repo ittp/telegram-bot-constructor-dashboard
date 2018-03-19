@@ -110,7 +110,7 @@ export class ApiClient {
 	static async getInlineKeys(botId: string): Promise<any> {
 		return new Promise((resolve, reject) => {
 			ApiClient.getAsync('/api/inline-keys', { botId }).then((inlineKeys) => {
-				reject(inlineKeys);
+				resolve(inlineKeys);
 			}).catch(error => {
 				reject(error);
 			});

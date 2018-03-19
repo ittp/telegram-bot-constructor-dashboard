@@ -25,7 +25,7 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 			this.setState({ loading: true });
 			ApiClient.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
-					this.setState({ currentBotId: bots[0].id });
+					this.setState({currentBotId: bots[ 0 ].id});
 				}
 				ApiClient.getInlineKeys(this.state.currentBotId).then((inlineKeys: IInlineKey[]) => {
 					this.setState({
