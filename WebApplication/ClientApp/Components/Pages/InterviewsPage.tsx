@@ -146,7 +146,9 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 		}
 
 		ApiClient.addInterview(botId, questionRef.value, nameRef.value, JSON.stringify(answersRefs.map(x => x.value))).then(() => {
-			this.getData();
+			this.setState({
+				answersCount: 0
+			});
 		}).catch(error => {
 			this.props.onError(error);
 		});

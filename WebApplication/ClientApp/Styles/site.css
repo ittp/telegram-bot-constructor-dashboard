@@ -2,6 +2,10 @@
     margin-top: 1%;
 }
 
+body {
+    background-color: gray;
+}
+
 .answer-button {
     margin: 5px;
 }

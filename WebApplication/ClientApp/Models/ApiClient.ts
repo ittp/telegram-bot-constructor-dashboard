@@ -21,7 +21,7 @@ export class ApiClient {
 					resolve();
 				}).catch(error => {
 					reject(error);
-				});;
+				});
 			}).catch(error => {
 				reject(error);
 			});
