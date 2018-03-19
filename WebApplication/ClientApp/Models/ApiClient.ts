@@ -2,12 +2,43 @@
 import { IInlineKey } from "./IInlineKey";
 import { IInterview } from "./IInterview";
 import { IUser } from "./IUser";
+import { IEvent } from "./IEvent";
 
 export class ApiClient {
 	static async getBots(): Promise<any> {
 		return new Promise((resolve, reject) => {
 			ApiClient.getAsync('/api/bots').then((bots: IBot[]) => {
 				resolve(bots);
+			}).catch(error => {
+				reject(error);
+			});
+		});
+	}
+
+	static async getEvents(botId: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			ApiClient.getAsync('/api/events', { botId }).then((events: IEvent[]) => {
+				resolve(events);
+			}).catch(error => {
+				reject(error);
+			});
+		});
+	}
+
+	static async addEvent(botId: string, text: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			ApiClient.postAsync('/api/add-event', { botId, text }).then(() => {
+				resolve();
+			}).catch(error => {
+				reject(error);
+			});
+		});
+	}
+
+	static async removeEvent(id: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			ApiClient.postAsync('/api/remove-event', { id: id }).then(() => {
+				resolve();
 			}).catch(error => {
 				reject(error);
 			});
@@ -188,7 +219,7 @@ export class ApiClient {
 		for (var name in networkingObj) {
 			networking.push(`${name}: ${networkingObj[name]}`);
 		}
-		
+
 		return {
 			botId: user.botId,
 			firstName: user.firstName,

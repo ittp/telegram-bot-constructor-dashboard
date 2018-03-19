@@ -7,6 +7,7 @@ import { Menu } from './Menu';
 import { InlineKeysPage } from './Pages/InlineKeysPage';
 import { InterviewsPage } from "./Pages/InterviewsPage";
 import { MessagesPage } from "./Pages/MessagesPage";
+import { EventsPage } from './Pages/EventsPage';
 
 export interface ILayoutState {
 	alert?: IAlert;
@@ -24,15 +25,15 @@ export class Layout extends React.Component<{}, ILayoutState> {
 	}
 
 	onAlert(message: string) {
-		this.setState({alert: {message: message, isError: false}});
+		this.setState({ alert: { message: message, isError: false } });
 	}
 
 	onError(message: string) {
-		this.setState({alert: {message: message, isError: true}});
+		this.setState({ alert: { message: message, isError: true } });
 	}
 
 	onClose() {
-		this.setState({alert: undefined});
+		this.setState({ alert: undefined });
 	}
 
 	renderAlertBlock() {
@@ -52,25 +53,28 @@ export class Layout extends React.Component<{}, ILayoutState> {
 		return <div className='container-fluid overlay'>
 			<div className='row'>
 				<div className='col-sm-3'>
-					<Menu/>
+					<Menu />
 				</div>
 				<div className='col-sm-9 page-content overflow-visible'>
 					{this.renderAlertBlock()}
 					<Route exact path='/'
-						   render={() => <HomePage onError={(m) => this.onError(m)}
-												   onAlert={(m) => this.onAlert(m)}/>}/>
+						render={() => <HomePage onError={(m) => this.onError(m)}
+							onAlert={(m) => this.onAlert(m)} />} />
 					<Route path='/users'
-						   render={() => <UsersPage onError={(m) => this.onError(m)}
-													onAlert={(m) => this.onAlert(m)}/>}/>
+						render={() => <UsersPage onError={(m) => this.onError(m)}
+							onAlert={(m) => this.onAlert(m)} />} />
 					<Route path='/text-message-answers'
-						   render={() => <MessagesPage onError={(m) => this.onError(m)}
-													   onAlert={(m) => this.onAlert(m)}/>}/>
+						render={() => <MessagesPage onError={(m) => this.onError(m)}
+							onAlert={(m) => this.onAlert(m)} />} />
 					<Route path='/inline-keys'
-						   render={() => <InlineKeysPage onError={(m) => this.onError(m)}
-														 onAlert={(m) => this.onAlert(m)}/>}/>
+						render={() => <InlineKeysPage onError={(m) => this.onError(m)}
+							onAlert={(m) => this.onAlert(m)} />} />
+					<Route path='/events'
+						render={() => <EventsPage onError={(m) => this.onError(m)}
+							onAlert={(m) => this.onAlert(m)} />} />
 					<Route path='/interviews'
-						   render={() => <InterviewsPage onError={(m) => this.onError(m)}
-														 onAlert={(m) => this.onAlert(m)}/>}/>
+						render={() => <InterviewsPage onError={(m) => this.onError(m)}
+							onAlert={(m) => this.onAlert(m)} />} />
 				</div>
 			</div>
 		</div>;
