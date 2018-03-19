@@ -31,12 +31,8 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 					this.setState({
 						loading: false, bots: bots, inlineKeys: inlineKeys
 					});
-				}).catch(error => {
-					this.props.onError(error);
-				});
-			}).catch(error => {
-				this.props.onError(error);
-			});
+				})
+			})
 		}
 	}
 
