@@ -35,7 +35,7 @@ export class Menu extends React.Component<{}, {}> {
 						</li>
 						<li>
 							<NavLink to={'/events'} activeClassName='active'>
-								<span className='glyphicon glyphicon-user'/> Events
+								<span className='glyphicon glyphicon-bullhorn'/> Events
 							</NavLink>
 						</li>
 						<li>

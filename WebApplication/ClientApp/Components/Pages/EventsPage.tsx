@@ -55,7 +55,7 @@ export class EventsPage extends React.Component<ILayoutCallbacks, IMessagesPageS
     render() {
         return (
             <div>
-                <h2> Messages </h2>
+                <h2> Events </h2>
                 <hr />
                 {this.state.loading ? <Preloader /> : (
                     <div>
