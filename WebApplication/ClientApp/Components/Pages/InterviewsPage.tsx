@@ -149,6 +149,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 			this.setState({
 				answersCount: 0
 			});
+			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
 		});
