@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { ApiClient } from '../../Models/ApiClient';
 import { IBot } from '../../Models/IBot';
 import { Preloader } from '../Domain/Preloader';
 import { ILayoutCallbacks } from '../Layout';
 import { IUser } from '../../Models/IUser';
 import { BotSelector } from "../Domain/BotSelector";
+import BotsApi from "../../ApiClient/BotsApi";
+import UsersApi from "../../ApiClient/UsersApi";
 
 interface IUsersPageState {
 	currentBotId: string;
@@ -23,11 +24,11 @@ export class UsersPage extends React.Component<ILayoutCallbacks, IUsersPageState
 		if (!this.state.loading) {
 			this.setState({ loading: true });
 
-			ApiClient.getBots().then((bots: IBot[]) => {
+			BotsApi.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
 					this.setState({ currentBotId: bots[0].id });
 				}
-				ApiClient.getUsers(this.state.currentBotId).then((users: IUser[]) => {
+				UsersApi.getUsers(this.state.currentBotId).then((users: IUser[]) => {
 					this.setState({
 						loading: false, bots: bots, users: users
 					});

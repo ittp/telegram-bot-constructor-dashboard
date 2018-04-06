@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { ApiClient } from '../../Models/ApiClient';
 import { FormEvent } from 'react';
 import { IBot } from '../../Models/IBot';
 import { Preloader } from '../Domain/Preloader';
 import { ILayoutCallbacks } from '../Layout';
 import { ITextMessageAnswer } from '../../Models/ITextMessageAnswer';
 import { BotSelector } from "../Domain/BotSelector";
+import TextMessageAnswersApi from "../../ApiClient/TextMessageAnswersApi";
+import BotsApi from "../../ApiClient/BotsApi";
 
 interface IMessagesPageState {
 	currentBotId: string;
@@ -23,11 +24,11 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 	getData() {
 		if (!this.state.loading) {
 			this.setState({ loading: true });
-			ApiClient.getBots().then((bots: IBot[]) => {
+			BotsApi.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
 					this.setState({ currentBotId: bots[0].id });
 				}
-				ApiClient.getTextMessageAnswers(this.state.currentBotId).then((textMessageAnswers: ITextMessageAnswer[]) => {
+				TextMessageAnswersApi.getTextMessageAnswers(this.state.currentBotId).then((textMessageAnswers: ITextMessageAnswer[]) => {
 					this.setState({
 						loading: false,
 						bots: bots,
@@ -89,7 +90,7 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 								<td>{textMessageAnswer.message}</td>
 								<td>{textMessageAnswer.answer}</td>
 								<td>
-									<button onClick={(e) => this.handleRemoveButton(textMessageAnswer.id)}
+									<button onClick={() => this.handleRemoveButton(textMessageAnswer.id)}
 										className="btn btn-default">
 										Remove
 								</button>
@@ -103,7 +104,7 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 	}
 
 	handleRemoveButton(id: string) {
-		ApiClient.removeTextMessageAnswer(id).then(() => {
+		TextMessageAnswersApi.removeTextMessageAnswer(id).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -121,7 +122,7 @@ export class MessagesPage extends React.Component<ILayoutCallbacks, IMessagesPag
 			this.props.onAlert('Validation error');
 		}
 
-		ApiClient.addTextMessageAnswer(
+		TextMessageAnswersApi.addTextMessageAnswer(
 			botId,
 			messageRef.value,
 			answerRef.value

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ApiClient } from '../../Models/ApiClient';
 import { IBot } from '../../Models/IBot';
 import { Preloader } from '../Domain/Preloader';
 import { ILayoutCallbacks } from '../Layout';
@@ -7,6 +6,10 @@ import { IInterview } from '../../Models/IInterview';
 import { IInterviewAnswer } from "../../Models/IInterviewAnswer";
 import { BotSelector } from "../Domain/BotSelector";
 import { IUser } from "../../Models/IUser";
+import BotsApi from "../../ApiClient/BotsApi";
+import InterviewsApi from "../../ApiClient/InterviewsApi";
+import UsersApi from "../../ApiClient/UsersApi";
+import InterviewAnswersApi from "../../ApiClient/InterviewAnswersApi";
 
 interface IInterviewsPageState {
 	currentBotId: string;
@@ -38,13 +41,13 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	getData() {
 		if (!this.state.loading) {
 			this.setState({ loading: true });
-			ApiClient.getBots().then((bots: IBot[]) => {
+			BotsApi.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
 					this.setState({ currentBotId: bots[0].id });
 				}
-				ApiClient.getInterviews(this.state.currentBotId).then((interviews: IInterview[]) => {
-					ApiClient.getInterviewAnswers(this.state.currentBotId).then((interviewAnswers: IInterviewAnswer[]) => {
-						ApiClient.getUsers(this.state.currentBotId).then((users: IUser[]) => {
+				InterviewsApi.getInterviews(this.state.currentBotId).then((interviews: IInterview[]) => {
+					InterviewAnswersApi.getInterviewAnswers(this.state.currentBotId).then((interviewAnswers: IInterviewAnswer[]) => {
+						UsersApi.getUsers(this.state.currentBotId).then((users: IUser[]) => {
 							this.setState({
 								loading: false,
 								bots,
@@ -127,7 +130,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 	}
 
 	handleRemoveKey(id: string) {
-		ApiClient.removeInterview(id).then(() => {
+		InterviewsApi.removeInterview(id).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -145,7 +148,7 @@ export class InterviewsPage extends React.Component<ILayoutCallbacks, IInterview
 			this.props.onAlert('Validation error');
 		}
 
-		ApiClient.addInterview(botId, questionRef.value, nameRef.value, JSON.stringify(answersRefs.map(x => x.value))).then(() => {
+		InterviewsApi.addInterview(botId, questionRef.value, nameRef.value, JSON.stringify(answersRefs.map(x => x.value))).then(() => {
 			this.setState({
 				answersCount: 0
 			});

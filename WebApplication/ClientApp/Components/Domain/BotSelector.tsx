@@ -14,6 +14,7 @@ export class BotSelector extends React.Component<IBotSelectorProps, {}> {
 
 	handleSelect() {
 		let selectedBotRef = this.refs.selectedBot as HTMLSelectElement;
+
 		this.props.onChange(selectedBotRef.value);
 	}
 

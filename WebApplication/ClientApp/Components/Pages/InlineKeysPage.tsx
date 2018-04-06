@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { ApiClient } from '../../Models/ApiClient';
 import { FormEvent } from 'react';
 import { IBot } from '../../Models/IBot';
 import { Preloader } from '../Domain/Preloader';
 import { ILayoutCallbacks } from '../Layout';
 import { IInlineKey } from '../../Models/IInlineKey';
 import { BotSelector } from "../Domain/BotSelector";
+import BotsApi from "../../ApiClient/BotsApi";
+import InlineKeysApi from "../../ApiClient/InlineKeysApi";
 
 interface IInlineKeysPageState {
 	currentBotId: string;
@@ -23,11 +24,11 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 	getData() {
 		if (!this.state.loading) {
 			this.setState({ loading: true });
-			ApiClient.getBots().then((bots: IBot[]) => {
+			BotsApi.getBots().then((bots: IBot[]) => {
 				if (this.state.currentBotId == '') {
 					this.setState({currentBotId: bots[ 0 ].id});
 				}
-				ApiClient.getInlineKeys(this.state.currentBotId).then((inlineKeys: IInlineKey[]) => {
+				InlineKeysApi.getInlineKeys(this.state.currentBotId).then((inlineKeys: IInlineKey[]) => {
 					this.setState({
 						loading: false, bots: bots, inlineKeys: inlineKeys
 					});
@@ -97,7 +98,7 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 	}
 
 	handleRemoveKey(id: string) {
-		ApiClient.removeInlineKey(id).then(() => {
+		InlineKeysApi.removeInlineKey(id).then(() => {
 			this.getData();
 		}).catch(error => {
 			this.props.onError(error);
@@ -115,7 +116,7 @@ export class InlineKeysPage extends React.Component<ILayoutCallbacks, IInlineKey
 			this.props.onAlert('Validation error');
 		}
 
-		ApiClient.addInlineKey(botId,captionRef.value,answerRef.value
+		InlineKeysApi.addInlineKey(botId,captionRef.value,answerRef.value
 		).then(() => {
 			this.getData();
 		}).catch(error => {
