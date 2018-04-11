@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{C83E16AF-4B5D-4004-B915-4C671BA9EB5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashboardMVC", "DashboardMVC\DashboardMVC.csproj", "{F5BB5FBD-2A79-4FED-82CC-E1B6544D02ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C83E16AF-4B5D-4004-B915-4C671BA9EB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C83E16AF-4B5D-4004-B915-4C671BA9EB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C83E16AF-4B5D-4004-B915-4C671BA9EB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C83E16AF-4B5D-4004-B915-4C671BA9EB5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5BB5FBD-2A79-4FED-82CC-E1B6544D02ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5BB5FBD-2A79-4FED-82CC-E1B6544D02ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5BB5FBD-2A79-4FED-82CC-E1B6544D02ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5BB5FBD-2A79-4FED-82CC-E1B6544D02ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,11 @@
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\bin\Debug\netcoreapp2.0\DashboardMVC.deps.json
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\bin\Debug\netcoreapp2.0\DashboardMVC.runtimeconfig.json
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\bin\Debug\netcoreapp2.0\DashboardMVC.runtimeconfig.dev.json
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\bin\Debug\netcoreapp2.0\DashboardMVC.dll
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\bin\Debug\netcoreapp2.0\DashboardMVC.pdb
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\obj\Debug\netcoreapp2.0\DashboardMVC.csprojResolveAssemblyReference.cache
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\obj\Debug\netcoreapp2.0\DashboardMVC.csproj.CoreCompileInputs.cache
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\obj\Debug\netcoreapp2.0\DashboardMVC.AssemblyInfoInputs.cache
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\obj\Debug\netcoreapp2.0\DashboardMVC.AssemblyInfo.cs
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\obj\Debug\netcoreapp2.0\DashboardMVC.dll
+C:\Users\canne\Projects\telegram-bot-constructor-dashboard\DashboardMVC\obj\Debug\netcoreapp2.0\DashboardMVC.pdb
